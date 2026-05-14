@@ -1,39 +1,81 @@
 import "./globals.css";
+import { absoluteUrl, siteConfig } from "./seo-config";
 
 export const metadata = {
-  metadataBase: new URL("https://advanta365.com"),
-  title: "Advanta365 | Microsoft 365 Adoption and Rollout Strategy",
-  description:
-    "Advanta365 helps organizations plan, govern, roll out, and sustain Microsoft 365 adoption across SharePoint Online, Microsoft Teams, OneDrive, and the modern digital workplace.",
-  keywords: [
-    "Microsoft 365 adoption",
-    "SharePoint Online governance",
-    "Microsoft Teams rollout",
-    "OneDrive training",
-    "modern workplace change management"
-  ],
+  metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`
+  },
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: siteConfig.category,
+  generator: "Next.js",
+  referrer: "origin-when-cross-origin",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false
+  },
   alternates: {
     canonical: "/"
   },
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" }
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg"
+  },
+  manifest: "/manifest.webmanifest",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1
+    }
+  },
   openGraph: {
-    title: "Advanta365 | Microsoft 365 Adoption and Rollout Strategy",
-    description:
-      "Structured Microsoft 365 adoption, governance, rollout, and enablement for modern enterprises.",
-    url: "https://advanta365.com",
-    siteName: "Advanta365",
-    type: "website"
+    title: siteConfig.title,
+    description: siteConfig.shortDescription,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    type: "website",
+    locale: siteConfig.locale,
+    images: [
+      {
+        url: absoluteUrl("/opengraph-image"),
+        width: 1200,
+        height: 630,
+        alt: "Advanta365 Microsoft 365 adoption command center"
+      }
+    ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "Advanta365 | Microsoft 365 Adoption and Rollout Strategy",
-    description:
-      "Structured Microsoft 365 adoption, governance, rollout, and enablement for modern enterprises."
+    title: siteConfig.title,
+    description: siteConfig.shortDescription,
+    images: [absoluteUrl("/opengraph-image")]
+  },
+  other: {
+    "msapplication-TileColor": siteConfig.themeColor,
+    "theme-color": siteConfig.themeColor
   }
 };
 
 export const viewport = {
   width: "device-width",
-  initialScale: 1
+  initialScale: 1,
+  themeColor: siteConfig.themeColor,
+  colorScheme: "light"
 };
 
 export default function RootLayout({ children }) {

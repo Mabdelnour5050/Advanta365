@@ -1,6 +1,15 @@
 import SiteInteractions from "./site-interactions";
+import { absoluteUrl, jsonLdScript, siteConfig } from "./seo-config";
 
-const contactEmail = "hello@advanta365.com";
+const contactEmail = siteConfig.email;
+
+const navItems = [
+  ["#services", "Services"],
+  ["#engagements", "Engagements"],
+  ["#journey", "Journey"],
+  ["#learning", "Enablement"],
+  ["#outcomes", "Outcomes"]
+];
 
 const focusAreas = [
   ["SharePoint Online", "Information architecture, hub strategy, publishing patterns, site owner readiness, and content quality standards."],
@@ -89,6 +98,80 @@ const faqs = [
   ["Do you support internal teams rather than replacing them?", "Yes. Advanta365 is designed to strengthen business leads, IT, communications, change, champions, and site owners so the organization can sustain the platform."]
 ];
 
+const conversationTopics = [
+  "Current Microsoft 365 pain points",
+  "Adoption and governance gaps",
+  "A practical next-step roadmap"
+];
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": absoluteUrl("/#organization"),
+    name: siteConfig.name,
+    legalName: siteConfig.legalName,
+    url: siteConfig.url,
+    email: `mailto:${siteConfig.email}`,
+    description: siteConfig.description,
+    slogan: siteConfig.shortDescription,
+    logo: absoluteUrl("/icon.svg")
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": absoluteUrl("/#website"),
+    url: siteConfig.url,
+    name: siteConfig.name,
+    description: siteConfig.description,
+    inLanguage: siteConfig.language,
+    publisher: {
+      "@id": absoluteUrl("/#organization")
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "@id": absoluteUrl("/#professional-service"),
+    name: siteConfig.name,
+    url: siteConfig.url,
+    description: siteConfig.description,
+    email: `mailto:${siteConfig.email}`,
+    serviceType: siteConfig.services,
+    provider: {
+      "@id": absoluteUrl("/#organization")
+    },
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: "Microsoft 365 adoption and governance services",
+      itemListElement: services.map(([, title, copy]) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: title,
+          description: copy,
+          provider: {
+            "@id": absoluteUrl("/#organization")
+          }
+        }
+      }))
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "@id": absoluteUrl("/#faq"),
+    mainEntity: faqs.map(([question, answer]) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: answer
+      }
+    }))
+  }
+];
+
 function Brand() {
   return (
     <span className="brand">
@@ -110,6 +193,13 @@ function CtaIcon() {
 export default function Home() {
   return (
     <>
+      {structuredData.map((item) => (
+        <script
+          key={item["@id"]}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: jsonLdScript(item) }}
+        />
+      ))}
       <SiteInteractions />
       <a className="skip-link" href="#main">Skip to content</a>
 
@@ -123,12 +213,10 @@ export default function Home() {
           <span />
           <span />
         </button>
-        <nav id="site-nav" className="site-nav" data-nav>
-          <a href="#services">Services</a>
-          <a href="#engagements">Engagements</a>
-          <a href="#journey">Journey</a>
-          <a href="#learning">Enablement</a>
-          <a href="#outcomes">Outcomes</a>
+        <nav id="site-nav" className="site-nav" aria-label="Primary navigation" data-nav>
+          {navItems.map(([href, label]) => (
+            <a href={href} key={href}>{label}</a>
+          ))}
           <a className="mobile-nav-cta" href="#contact">Plan your rollout</a>
         </nav>
         <a className="header-cta" href="#contact">Plan your rollout</a>
@@ -151,6 +239,7 @@ export default function Home() {
               <span>Governance by design</span>
               <span>Role-based enablement</span>
             </div>
+            <p className="hero-note">For teams that already have Microsoft 365 in place and need the operating model, ownership, and user confidence to catch up.</p>
           </div>
 
           <div className="hero-visual" role="img" aria-label="Microsoft 365 adoption command center preview">
@@ -245,7 +334,7 @@ export default function Home() {
           </div>
           <div className="engagement-grid">
             {engagementModels.map((model) => (
-              <article className="engagement-card" key={model.title}>
+              <article className="engagement-card" key={model.title} aria-label={`${model.title} engagement model`}>
                 <div className="engagement-card-head">
                   <h3>{model.title}</h3>
                   <span>{model.duration}</span>
@@ -406,6 +495,11 @@ export default function Home() {
             <span>Best first step</span>
             <strong>Book a roadmap conversation</strong>
             <p>Share what is live, what feels messy, and what your leaders need to see next.</p>
+            <ul aria-label="Roadmap conversation topics">
+              {conversationTopics.map((topic) => (
+                <li key={topic}>{topic}</li>
+              ))}
+            </ul>
             <a className="btn btn-primary" href={`mailto:${contactEmail}?subject=Advanta365%20roadmap%20conversation`}>
               Email Advanta365 <CtaIcon />
             </a>
