@@ -73,7 +73,7 @@ export default function Home() {
                       Explore the framework
                     </Link>
                   </div>,
-                  <dl className="mt-12 grid max-w-xl grid-cols-3 gap-6" key="stats">
+                  <dl className="mt-12 grid max-w-xl grid-cols-3 gap-4 sm:gap-6" key="stats">
                     {[
                       { k: "7", v: "Stage delivery model" },
                       { k: "6", v: "WOW onboarding workshops" },
@@ -299,7 +299,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="lg:col-span-7">
-              <Stagger as="ul" className="grid gap-3 sm:grid-cols-2" amount={0.15}>
+              <Stagger as="ul" className="grid gap-3 sm:grid-cols-2 2xl:grid-cols-3" amount={0.15}>
                 {differentiators.slice(0, 6).map((d) => (
                   <Item as="li" key={d.title} className="surface p-5">
                     <div className="font-semibold text-[var(--ink-950)]">{d.title}</div>

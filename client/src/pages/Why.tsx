@@ -46,7 +46,7 @@ export default function Why() {
             title="Eight things ADVANTA365 does differently."
             description="The choices behind the framework — and why they matter at enterprise scale."
           />
-          <Stagger className="mt-12 grid gap-4 md:grid-cols-2" amount={0.1}>
+          <Stagger className="mt-12 grid gap-4 md:grid-cols-2 2xl:grid-cols-4" amount={0.1}>
             {differentiators.map((d) => (
               <Item key={d.title} className="surface-elevated p-6">
                 <div className="flex items-center gap-2">
@@ -74,7 +74,7 @@ export default function Why() {
               />
             </div>
             <div className="lg:col-span-7">
-              <ul className="grid gap-3 sm:grid-cols-2">
+              <ul className="grid gap-3 sm:grid-cols-2 2xl:grid-cols-3">
                 {targetAudience.map((a) => (
                   <li key={a} className="surface flex items-center gap-3 p-4">
                     <CheckCircle2 className="h-4 w-4 flex-shrink-0 text-[var(--brand-600)]" />

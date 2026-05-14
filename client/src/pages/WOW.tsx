@@ -78,7 +78,7 @@ export default function WOW() {
               />
             </div>
             <div className="lg:col-span-7">
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-3 sm:grid-cols-2 2xl:grid-cols-3">
                 {reinforcementChannels.map((c) => (
                   <div key={c} className="surface flex items-center gap-3 p-4">
                     <span className="h-2 w-2 rounded-full bg-[var(--brand-600)]" />

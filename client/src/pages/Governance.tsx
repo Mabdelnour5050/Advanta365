@@ -63,7 +63,7 @@ export default function Governance() {
               </div>
             </div>
             <div className="lg:col-span-7">
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 2xl:grid-cols-4">
                 {governanceTouchpoints.map((t) => (
                   <div key={t} className="surface-elevated p-5 text-center">
                     <div className="mx-auto grid h-9 w-9 place-items-center rounded-lg bg-[var(--brand-50)] text-[var(--brand-700)]">
