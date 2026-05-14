@@ -100,6 +100,12 @@ a {
   font-size: 1.03rem;
 }
 
+.brand-link {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+}
+
 .brand-mark {
   display: grid;
   grid-template-columns: repeat(2, 10px);
@@ -954,7 +960,7 @@ h3 {
   text-transform: uppercase;
 }
 
-.site-footer a:not(.brand) {
+.site-footer a:not(.brand-link) {
   display: block;
   margin: 10px 0;
   color: rgba(255, 255, 255, 0.62);
