@@ -3,6 +3,7 @@ import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
+import { Item, Stagger } from "@/components/Motion";
 import { businessProblems, differentiators, targetAudience } from "@/lib/content";
 
 export default function Why() {
@@ -22,18 +23,18 @@ export default function Why() {
             title="Nine common problems in enterprise Microsoft 365."
             description="Each of these is a symptom of the same root cause: treating M365 as a technology deployment rather than an organizational transformation."
           />
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <Stagger className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3" amount={0.1}>
             {businessProblems.map((p, i) => (
-              <div key={p.title} className="surface-elevated p-6">
+              <Item key={p.title} className="surface-elevated p-6">
                 <div className="flex items-center gap-2 text-xs font-semibold text-[var(--ink-400)]">
                   <AlertTriangle className="h-4 w-4 text-[var(--amber-600)]" />
                   Problem {String(i + 1).padStart(2, "0")}
                 </div>
                 <h4 className="mt-3 text-[var(--ink-950)]">{p.title}</h4>
                 <p className="mt-2 text-sm leading-relaxed text-[var(--ink-500)]">{p.description}</p>
-              </div>
+              </Item>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -45,9 +46,9 @@ export default function Why() {
             title="Eight things ADVANTA365 does differently."
             description="The choices behind the framework — and why they matter at enterprise scale."
           />
-          <div className="mt-12 grid gap-4 md:grid-cols-2">
+          <Stagger className="mt-12 grid gap-4 md:grid-cols-2" amount={0.1}>
             {differentiators.map((d) => (
-              <div key={d.title} className="surface-elevated p-6">
+              <Item key={d.title} className="surface-elevated p-6">
                 <div className="flex items-center gap-2">
                   <Sparkles className="h-4 w-4 text-[var(--brand-600)]" />
                   <h4 className="text-[var(--ink-950)]">{d.title}</h4>
@@ -55,9 +56,9 @@ export default function Why() {
                 <p className="mt-3 text-[15px] leading-relaxed text-[var(--ink-500)]">
                   {d.description}
                 </p>
-              </div>
+              </Item>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 

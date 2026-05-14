@@ -3,6 +3,7 @@ import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
+import { Item, Stagger } from "@/components/Motion";
 import { reinforcementChannels, wowSessions } from "@/lib/content";
 
 export default function WOW() {
@@ -41,9 +42,9 @@ export default function WOW() {
             title="A guided onboarding arc — repeatable for every wave."
             description="Each session has a specific purpose, audience, and outcome. Together they prepare Site Owners and governance roles to operate the platform with confidence."
           />
-          <div className="mt-14 grid gap-5 md:grid-cols-2">
+          <Stagger className="mt-14 grid gap-5 md:grid-cols-2" amount={0.1}>
             {wowSessions.map((w, i) => (
-              <div key={w.number} className="surface-elevated p-7">
+              <Item key={w.number} className="surface-elevated p-7">
                 <div className="flex items-baseline justify-between gap-4">
                   <div className="eyebrow">{w.number}</div>
                   <span className="font-display text-4xl font-bold text-[var(--ink-100)]">
@@ -59,9 +60,9 @@ export default function WOW() {
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Item>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 

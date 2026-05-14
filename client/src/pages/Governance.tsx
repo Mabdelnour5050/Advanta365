@@ -3,6 +3,7 @@ import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
+import { Item, Stagger } from "@/components/Motion";
 import { modules } from "@/lib/content";
 
 const moduleIcons = [Workflow, Boxes, Compass, Network, GraduationCap];
@@ -120,11 +121,11 @@ export default function Governance() {
             title="Five modules turn methodology into operations."
             description="Each module is a working capability — not a slide. Together they form the operating system for a governed, scalable digital workplace."
           />
-          <div className="mt-14 grid gap-5 md:grid-cols-2">
+          <Stagger className="mt-14 grid gap-5 md:grid-cols-2" amount={0.1}>
             {modules.map((m, i) => {
               const Icon = moduleIcons[i] ?? Boxes;
               return (
-                <div key={m.name} className="surface-elevated p-7">
+                <Item key={m.name} className="surface-elevated p-7">
                   <div className="flex items-start gap-4">
                     <div className="grid h-11 w-11 flex-shrink-0 place-items-center rounded-xl bg-gradient-to-br from-[var(--brand-50)] to-[var(--teal-100)] text-[var(--brand-700)]">
                       <Icon className="h-5 w-5" />
@@ -146,10 +147,10 @@ export default function Governance() {
                       </span>
                     ))}
                   </div>
-                </div>
+                </Item>
               );
             })}
-          </div>
+          </Stagger>
         </div>
       </section>
 

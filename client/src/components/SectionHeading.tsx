@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { Item, Stagger } from "@/components/Motion";
 
 type Props = {
   eyebrow?: string;
@@ -10,14 +11,22 @@ type Props = {
 export default function SectionHeading({ eyebrow, title, description, align = "left" }: Props) {
   const isCenter = align === "center";
   return (
-    <div className={isCenter ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
-      {eyebrow && <div className="eyebrow mb-4">{eyebrow}</div>}
-      <h2 className="text-balance">{title}</h2>
-      {description && (
-        <p className="mt-5 text-lg leading-relaxed text-[var(--ink-500)]">
-          {description}
-        </p>
+    <Stagger className={isCenter ? "mx-auto max-w-3xl text-center" : "max-w-3xl"} amount={0.4}>
+      {eyebrow && (
+        <Item>
+          <div className="eyebrow mb-4">{eyebrow}</div>
+        </Item>
       )}
-    </div>
+      <Item>
+        <h2 className="text-balance">{title}</h2>
+      </Item>
+      {description && (
+        <Item>
+          <p className="mt-5 text-lg leading-relaxed text-[var(--ink-500)]">
+            {description}
+          </p>
+        </Item>
+      )}
+    </Stagger>
   );
 }

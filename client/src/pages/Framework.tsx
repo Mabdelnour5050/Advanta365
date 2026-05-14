@@ -4,6 +4,7 @@ import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/PageHero";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
+import { Item, Stagger } from "@/components/Motion";
 import {
   corePrinciples,
   deliveryFlow,
@@ -39,18 +40,18 @@ export default function Framework() {
             title="Six phases. One continuous arc."
             description="The ADVANTA365 lifecycle moves from organizational clarity to lasting capability — each phase building on the previous one."
           />
-          <div className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+          <Stagger className="mt-12 grid gap-3 sm:grid-cols-2 lg:grid-cols-6" amount={0.1}>
             {deliveryFlow.map((step, i) => (
-              <div key={step} className="surface-elevated p-5">
+              <Item key={step} className="surface-elevated p-5">
                 <div className="text-xs font-semibold uppercase tracking-[0.16em] text-[var(--ink-400)]">
                   Phase {i + 1}
                 </div>
                 <div className="mt-2 font-display text-xl font-bold text-[var(--ink-950)]">
                   {step}
                 </div>
-              </div>
+              </Item>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -62,9 +63,9 @@ export default function Framework() {
             title="The seven stages of an ADVANTA365 rollout."
             description="A practical, repeatable sequence designed for organizations that need real outcomes — not a slide deck."
           />
-          <ol className="mt-14 grid gap-5 md:grid-cols-2">
+          <Stagger as="ol" className="mt-14 grid gap-5 md:grid-cols-2" amount={0.1}>
             {sevenStages.map((s, i) => (
-              <li key={s.number} className="surface-elevated relative p-7">
+              <Item as="li" key={s.number} className="surface-elevated relative p-7">
                 <div className="absolute right-6 top-6 font-display text-5xl font-bold text-[var(--ink-100)]">
                   {s.number}
                 </div>
@@ -73,9 +74,9 @@ export default function Framework() {
                 <p className="mt-3 text-[15px] leading-relaxed text-[var(--ink-500)]">
                   {s.description}
                 </p>
-              </li>
+              </Item>
             ))}
-          </ol>
+          </Stagger>
         </div>
       </section>
 
@@ -132,9 +133,9 @@ export default function Framework() {
               </div>
             </div>
             <div className="lg:col-span-7">
-              <div className="grid gap-3 sm:grid-cols-2">
+              <Stagger className="grid gap-3 sm:grid-cols-2" amount={0.15}>
                 {fasterFramework.map((f) => (
-                  <div key={f.letter} className="surface-elevated p-6">
+                  <Item key={f.letter} className="surface-elevated p-6">
                     <div className="flex items-baseline gap-3">
                       <span className="font-display text-4xl font-extrabold text-gradient">
                         {f.letter}
@@ -144,9 +145,9 @@ export default function Framework() {
                     <p className="mt-3 text-sm leading-relaxed text-[var(--ink-500)]">
                       {f.description}
                     </p>
-                  </div>
+                  </Item>
                 ))}
-              </div>
+              </Stagger>
             </div>
           </div>
         </div>
