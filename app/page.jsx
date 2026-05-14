@@ -1,36 +1,92 @@
-"use client";
+import SiteInteractions from "./site-interactions";
 
-import { useEffect } from "react";
+const contactEmail = "hello@advanta365.com";
+
+const focusAreas = [
+  ["SharePoint Online", "Information architecture, hub strategy, publishing patterns, site owner readiness, and content quality standards."],
+  ["Microsoft Teams", "Team lifecycle, channel design, collaboration norms, governance, and working agreements that reduce sprawl."],
+  ["OneDrive", "Migration readiness, sharing guidance, ownership decisions, and practical habits for confident file management."],
+  ["Power Platform", "Citizen-maker guardrails, intake models, environment strategy, and enablement paths that keep innovation responsible."]
+];
 
 const services = [
-  ["01", "Microsoft 365 Rollout Strategy", "Define scope, audiences, waves, readiness criteria, executive alignment, and adoption outcomes before launch pressure builds."],
-  ["02", "SharePoint Online Implementation", "Build modern portals, hubs, site patterns, content models, and publishing practices that support real business workflows."],
-  ["03", "Governance and Information Architecture", "Create clear ownership models, lifecycle practices, findability standards, naming conventions, and scalable guardrails."],
-  ["04", "Change Management", "Shape sponsor messaging, stakeholder engagement, communications, readiness assessments, resistance planning, and feedback loops."],
-  ["05", "Learning and Training Programs", "Deliver role-based learning journeys, workshops, job aids, office hours, and onboarding paths that meet people where they are."],
-  ["06", "Adoption Measurement", "Connect usage, sentiment, support patterns, and business outcomes into an adoption scorecard leaders can actually use."],
-  ["07", "Site Owner Enablement", "Prepare owners with governance, publishing, permissions, accessibility, content quality, and lifecycle responsibilities."],
-  ["08", "Template and Provisioning Strategies", "Standardize repeatable site and team patterns while preserving enough flexibility for business-led delivery."]
+  ["01", "Microsoft 365 Rollout Strategy", "Scope the launch, shape delivery waves, define readiness criteria, align leaders, and connect rollout activity to business outcomes."],
+  ["02", "SharePoint Online Implementation", "Build modern portals, hubs, templates, content models, permissions patterns, and publishing practices for real work."],
+  ["03", "Governance and Information Architecture", "Create clear ownership, lifecycle practices, naming standards, findability patterns, and guardrails people can follow."],
+  ["04", "Change Management", "Plan sponsor messaging, stakeholder engagement, resistance management, communications, feedback channels, and support rhythms."],
+  ["05", "Learning and Training Programs", "Deliver role-based journeys, workshops, job aids, clinics, office hours, and onboarding that meet each audience where they are."],
+  ["06", "Adoption Measurement", "Connect usage, sentiment, support themes, training completion, and business indicators into an adoption view leaders can use."],
+  ["07", "Site Owner Enablement", "Prepare owners for permissions, content quality, accessibility, publishing cadence, lifecycle decisions, and governance accountability."],
+  ["08", "Template and Provisioning Strategy", "Standardize repeatable sites, teams, request flows, and intake models while leaving room for business-led delivery."]
 ];
 
 const journey = [
-  ["01", "Vision", "Clarify outcomes, leadership narrative, user needs, and the modern workplace experience you want to create."],
-  ["02", "Strategy", "Shape the adoption model, governance posture, delivery roadmap, measures of success, and stakeholder rhythm."],
-  ["03", "Planning", "Prepare waves, communications, learning journeys, pilots, migration cleanup, and support readiness."],
-  ["04", "Enablement", "Equip champions, site owners, business leads, and end users with role-specific resources and practical guidance."],
-  ["05", "Rollout", "Launch with confidence through structured waves, feedback channels, communications, clinics, and visible support."],
-  ["06", "Sustainment", "Measure adoption, mature governance, reinforce learning, and continuously improve the Microsoft 365 experience."]
+  ["01", "Vision", "Clarify outcomes, leadership narrative, user needs, and the modern workplace experience the organization wants to create."],
+  ["02", "Strategy", "Shape the adoption model, governance posture, roadmap, success measures, platform patterns, and stakeholder rhythm."],
+  ["03", "Planning", "Prepare delivery waves, pilots, communications, learning journeys, migration cleanup, and support readiness."],
+  ["04", "Enablement", "Equip champions, site owners, leaders, support teams, and end users with practical role-specific resources."],
+  ["05", "Rollout", "Launch through structured waves, feedback channels, executive updates, communications, clinics, and visible support."],
+  ["06", "Sustainment", "Measure adoption, mature governance, reinforce learning, improve content quality, and keep the platform healthy."]
+];
+
+const engagementModels = [
+  {
+    title: "Readiness Sprint",
+    duration: "2-4 weeks",
+    copy: "A focused diagnostic that turns scattered Microsoft 365 concerns into a prioritized rollout plan.",
+    items: ["Stakeholder interviews", "Governance maturity review", "Adoption risk register", "90-day roadmap"]
+  },
+  {
+    title: "Rollout Program",
+    duration: "8-16 weeks",
+    copy: "A structured implementation path for SharePoint, Teams, OneDrive, governance, training, and communications.",
+    items: ["Wave plan", "Learning journeys", "Communications calendar", "Executive scorecard"]
+  },
+  {
+    title: "Sustainment Partner",
+    duration: "Monthly cadence",
+    copy: "Ongoing adoption leadership that keeps owners enabled, governance fresh, and platform usage improving.",
+    items: ["Office hours", "Owner coaching", "Adoption reporting", "Continuous improvement backlog"]
+  }
+];
+
+const diagnosticSignals = [
+  ["Ownership", "Who decides, approves, publishes, audits, and retires Microsoft 365 workspaces?"],
+  ["Findability", "Can employees quickly locate trusted content, experts, and current guidance?"],
+  ["Behavior", "Are Teams, SharePoint, and OneDrive used with clear norms instead of personal preference?"],
+  ["Measurement", "Can leaders see readiness, risk, adoption, support demand, and value in one place?"]
 ];
 
 const learningItems = [
   "Job aids",
   "Workshops",
-  "Site Owner onboarding",
+  "Site owner onboarding",
   "Role-based training",
   "Reinforcement check-ins",
   "End-user adoption support",
-  "Communities of Practice",
+  "Communities of practice",
   "Champions enablement"
+];
+
+const outcomeCards = [
+  ["Executive visibility", "A clear adoption scorecard links rollout progress, readiness, governance, and user confidence."],
+  ["Cleaner collaboration", "Teams, channels, SharePoint sites, and OneDrive sharing all follow a practical operating model."],
+  ["Stronger ownership", "Site owners and champions understand what they own, how to maintain it, and when to escalate."],
+  ["Sustainable change", "Training, communications, support, and improvement loops continue after launch day."]
+];
+
+const deliverables = [
+  ["Adoption blueprint", "Vision, audiences, workstreams, roadmap, measures, governance principles, and delivery rhythm."],
+  ["Governance playbook", "Decision rights, lifecycle rules, naming patterns, ownership model, and operating cadence."],
+  ["Learning system", "Role-based curricula, job aids, owner enablement, champion activation, and reinforcement plan."],
+  ["Rollout command center", "Wave tracker, risk register, communications calendar, support themes, and executive reporting."]
+];
+
+const faqs = [
+  ["Can Advanta365 help if Microsoft 365 is already deployed?", "Yes. The work often starts after licenses and tools are already live, when adoption, governance, and employee confidence need structure."],
+  ["Is this only for SharePoint?", "No. SharePoint is often central, but the approach covers Teams, OneDrive, Power Platform, governance, learning, and operating model design."],
+  ["What does a first engagement usually produce?", "A readiness view, prioritized risk list, stakeholder map, governance recommendations, and a practical roadmap for rollout or improvement."],
+  ["Do you support internal teams rather than replacing them?", "Yes. Advanta365 is designed to strengthen business leads, IT, communications, change, champions, and site owners so the organization can sustain the platform."]
 ];
 
 function Brand() {
@@ -47,77 +103,16 @@ function Brand() {
   );
 }
 
+function CtaIcon() {
+  return <span className="btn-icon" aria-hidden="true" />;
+}
+
 export default function Home() {
-  useEffect(() => {
-    const header = document.querySelector("[data-header]");
-    const navToggle = document.querySelector("[data-nav-toggle]");
-    const nav = document.querySelector("[data-nav]");
-
-    const setHeaderState = () => {
-      header?.classList.toggle("is-scrolled", window.scrollY > 18);
-    };
-
-    const toggleNavigation = () => {
-      const expanded = navToggle?.getAttribute("aria-expanded") === "true";
-      navToggle?.setAttribute("aria-expanded", String(!expanded));
-      header?.classList.toggle("nav-active", !expanded);
-      document.body.classList.toggle("nav-open", !expanded);
-    };
-
-    const closeNavigation = (event) => {
-      if (event.target instanceof HTMLAnchorElement) {
-        navToggle?.setAttribute("aria-expanded", "false");
-        header?.classList.remove("nav-active");
-        document.body.classList.remove("nav-open");
-      }
-    };
-
-    setHeaderState();
-    window.addEventListener("scroll", setHeaderState, { passive: true });
-    navToggle?.addEventListener("click", toggleNavigation);
-    nav?.addEventListener("click", closeNavigation);
-
-    const revealTargets = document.querySelectorAll(
-      ".value-card, .service-card, .journey-step, .method-panel, .learning-feature, .learning-list span, .outcome-card, .testimonial-card, .final-cta"
-    );
-
-    revealTargets.forEach((target) => target.setAttribute("data-reveal", ""));
-
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.14 }
-    );
-
-    revealTargets.forEach((target) => revealObserver.observe(target));
-
-    const journeySteps = document.querySelectorAll(".journey-step");
-    let index = 0;
-    const journeyTimer = window.setInterval(() => {
-      if (!journeySteps.length) return;
-      journeySteps[index].classList.remove("active");
-      index = (index + 1) % journeySteps.length;
-      journeySteps[index].classList.add("active");
-    }, 2800);
-
-    return () => {
-      window.removeEventListener("scroll", setHeaderState);
-      navToggle?.removeEventListener("click", toggleNavigation);
-      nav?.removeEventListener("click", closeNavigation);
-      revealObserver.disconnect();
-      window.clearInterval(journeyTimer);
-      document.body.classList.remove("nav-open");
-    };
-  }, []);
-
   return (
     <>
+      <SiteInteractions />
+      <a className="skip-link" href="#main">Skip to content</a>
+
       <header className="site-header" data-header>
         <a className="brand-link" href="#top" aria-label="Advanta365 home">
           <Brand />
@@ -130,49 +125,76 @@ export default function Home() {
         </button>
         <nav id="site-nav" className="site-nav" data-nav>
           <a href="#services">Services</a>
+          <a href="#engagements">Engagements</a>
           <a href="#journey">Journey</a>
-          <a href="#framework">Framework</a>
           <a href="#learning">Enablement</a>
           <a href="#outcomes">Outcomes</a>
+          <a className="mobile-nav-cta" href="#contact">Plan your rollout</a>
         </nav>
         <a className="header-cta" href="#contact">Plan your rollout</a>
       </header>
 
-      <main id="top">
-        <section className="hero section-dark" aria-labelledby="hero-title">
-          <div className="hero-visual" aria-hidden="true">
-            <div className="signal signal-a" />
-            <div className="signal signal-b" />
-            <div className="orbit orbit-one" />
-            <div className="orbit orbit-two" />
-            <div className="platform-map">
-              <div className="map-node node-primary">365</div>
-              <div className="map-node node-teams">Teams</div>
-              <div className="map-node node-sharepoint">SharePoint</div>
-              <div className="map-node node-onedrive">OneDrive</div>
-              <div className="map-node node-governance">Governance</div>
-              <div className="map-node node-learning">Learning</div>
-              <svg viewBox="0 0 760 460" preserveAspectRatio="none">
-                <path d="M382 228 C258 120 178 121 113 86" />
-                <path d="M382 228 C548 102 617 118 679 82" />
-                <path d="M382 228 C197 246 170 323 107 360" />
-                <path d="M382 228 C556 270 606 319 681 370" />
-                <path d="M382 228 C393 334 392 377 384 420" />
-              </svg>
-            </div>
-          </div>
+      <main id="main">
+        <section id="top" className="hero section-dark" aria-labelledby="hero-title">
           <div className="hero-content">
             <p className="eyebrow">Microsoft 365 adoption, governance, and rollout strategy</p>
-            <h1 id="hero-title">Structured Microsoft 365 adoption that actually sticks.</h1>
-            <p className="hero-copy">Advanta365 turns SharePoint Online, Microsoft Teams, OneDrive, and the broader Microsoft 365 ecosystem into a clear, governed, human-centered workplace experience.</p>
+            <h1 id="hero-title">Make Microsoft 365 easier to trust, govern, and adopt.</h1>
+            <p className="hero-copy">
+              Advanta365 helps organizations turn SharePoint Online, Microsoft Teams, OneDrive, and Power Platform into a clear modern workplace system with practical governance and confident users.
+            </p>
             <div className="hero-actions" aria-label="Primary calls to action">
-              <a className="btn btn-primary" href="#contact">Start the conversation</a>
-              <a className="btn btn-secondary" href="#journey">Explore the journey</a>
+              <a className="btn btn-primary" href="#contact">Start the roadmap <CtaIcon /></a>
+              <a className="btn btn-secondary" href="#diagnostic">Check readiness <CtaIcon /></a>
             </div>
             <div className="hero-proof" aria-label="Advanta365 focus areas">
+              <span>90-day launch planning</span>
               <span>Governance by design</span>
-              <span>Wave-based rollout</span>
               <span>Role-based enablement</span>
+            </div>
+          </div>
+
+          <div className="hero-visual" role="img" aria-label="Microsoft 365 adoption command center preview">
+            <div className="visual-shell">
+              <div className="visual-topbar">
+                <span />
+                <span />
+                <span />
+                <strong>Adoption command center</strong>
+              </div>
+              <div className="readiness-panel">
+                <div>
+                  <span className="panel-label">Rollout readiness</span>
+                  <strong>Wave 2 on track</strong>
+                </div>
+                <div className="readiness-ring" aria-hidden="true"><span>82</span></div>
+              </div>
+              <div className="workspace-grid" aria-hidden="true">
+                <div className="workspace-card active">
+                  <span>SharePoint</span>
+                  <strong>Hub redesign</strong>
+                  <i />
+                </div>
+                <div className="workspace-card">
+                  <span>Teams</span>
+                  <strong>Lifecycle model</strong>
+                  <i />
+                </div>
+                <div className="workspace-card">
+                  <span>OneDrive</span>
+                  <strong>Sharing guidance</strong>
+                  <i />
+                </div>
+                <div className="workspace-card">
+                  <span>Learning</span>
+                  <strong>Owner path</strong>
+                  <i />
+                </div>
+              </div>
+              <div className="signal-board" aria-hidden="true">
+                <span style={{ "--value": "72%" }}>Governance maturity</span>
+                <span style={{ "--value": "61%" }}>Champion coverage</span>
+                <span style={{ "--value": "88%" }}>Content readiness</span>
+              </div>
             </div>
           </div>
         </section>
@@ -181,33 +203,60 @@ export default function Home() {
           <div className="section-heading">
             <p className="eyebrow">Modern workplace transformation</p>
             <h2 id="value-title">Simplicity inside enterprise complexity.</h2>
-            <p>Advanta365 gives organizations the structure, communication, learning, and governance needed to make Microsoft 365 feel coherent instead of chaotic.</p>
+            <p>Advanta365 gives Microsoft 365 programs the structure, communication, learning, and governance needed to feel coherent instead of chaotic.</p>
           </div>
           <div className="value-grid">
-            <article className="value-card">
-              <span className="card-icon">SP</span>
-              <h3>SharePoint Online</h3>
-              <p>Design intranets, hubs, templates, site owner journeys, and information architecture that make knowledge easier to publish and find.</p>
-            </article>
-            <article className="value-card">
-              <span className="card-icon">T</span>
-              <h3>Microsoft Teams</h3>
-              <p>Establish collaboration models, lifecycle guidance, channel standards, and practical ways of working that reduce unmanaged sprawl.</p>
-            </article>
-            <article className="value-card">
-              <span className="card-icon">OD</span>
-              <h3>OneDrive</h3>
-              <p>Guide file ownership, migration readiness, sharing behavior, and user confidence through approachable onboarding and reinforcement.</p>
-            </article>
-            <article className="value-card">
-              <span className="card-icon">G</span>
-              <h3>Governance</h3>
-              <p>Translate policy into usable guardrails, decision rights, provisioning practices, and sustainable operating rhythms.</p>
-            </article>
+            {focusAreas.map(([title, copy]) => (
+              <article className="value-card" key={title}>
+                <span className="card-icon">{title.split(" ")[0].slice(0, 2)}</span>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </article>
+            ))}
           </div>
           <div className="capability-strip" aria-label="Advanta365 capabilities">
-            {["User Adoption", "Change Management", "Training and Enablement", "Rollout Strategy", "Champions Networks", "Communities of Practice", "Learning Portals"].map((item) => (
+            {["User adoption", "Change management", "Training and enablement", "Rollout strategy", "Champions networks", "Communities of practice", "Learning portals"].map((item) => (
               <span key={item}>{item}</span>
+            ))}
+          </div>
+        </section>
+
+        <section id="diagnostic" className="diagnostic-section section-muted" aria-labelledby="diagnostic-title">
+          <div className="diagnostic-copy">
+            <p className="eyebrow">Readiness diagnostic</p>
+            <h2 id="diagnostic-title">Find the gaps before launch pressure exposes them.</h2>
+            <p>Microsoft 365 adoption succeeds when leaders can see where ownership, behavior, information design, and measurement are strong enough to carry the change.</p>
+          </div>
+          <div className="diagnostic-grid">
+            {diagnosticSignals.map(([title, copy]) => (
+              <article className="diagnostic-card" key={title}>
+                <span />
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section id="engagements" className="engagement-section section-light" aria-labelledby="engagement-title">
+          <div className="section-heading align-left">
+            <p className="eyebrow">Engagement models</p>
+            <h2 id="engagement-title">Start with the level of structure your rollout needs.</h2>
+          </div>
+          <div className="engagement-grid">
+            {engagementModels.map((model) => (
+              <article className="engagement-card" key={model.title}>
+                <div className="engagement-card-head">
+                  <h3>{model.title}</h3>
+                  <span>{model.duration}</span>
+                </div>
+                <p>{model.copy}</p>
+                <ul>
+                  {model.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
             ))}
           </div>
         </section>
@@ -230,7 +279,7 @@ export default function Home() {
 
         <section id="journey" className="journey-section section-dark" aria-labelledby="journey-title">
           <div className="section-heading">
-            <p className="eyebrow">The Advanta365 Journey</p>
+            <p className="eyebrow">The Advanta365 journey</p>
             <h2 id="journey-title">A clear path from vision to sustained adoption.</h2>
           </div>
           <div className="journey-track" aria-label="Microsoft 365 adoption lifecycle">
@@ -298,22 +347,12 @@ export default function Home() {
             <h2 id="outcomes-title">Designed for measurable, sustainable progress.</h2>
           </div>
           <div className="outcome-grid">
-            <article className="outcome-card">
-              <strong>42%</strong>
-              <span>faster onboarding readiness</span>
-            </article>
-            <article className="outcome-card">
-              <strong>3x</strong>
-              <span>clearer governance adoption</span>
-            </article>
-            <article className="outcome-card">
-              <strong>28%</strong>
-              <span>lower unmanaged collaboration risk</span>
-            </article>
-            <article className="outcome-card">
-              <strong>86%</strong>
-              <span>reported user confidence after enablement</span>
-            </article>
+            {outcomeCards.map(([title, copy]) => (
+              <article className="outcome-card" key={title}>
+                <strong>{title}</strong>
+                <span>{copy}</span>
+              </article>
+            ))}
           </div>
           <div className="outcome-tags" aria-label="Additional outcomes">
             {["Better search and findability", "Sustainable platform usage", "Reduced support burden", "Improved collaboration clarity"].map((item) => (
@@ -322,33 +361,18 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="trust-section section-dark" aria-labelledby="trust-title">
+        <section className="deliverables-section section-dark" aria-labelledby="deliverables-title">
           <div className="section-heading">
-            <p className="eyebrow">Trusted by transformation leaders</p>
-            <h2 id="trust-title">Enterprise credibility without the noise.</h2>
+            <p className="eyebrow">Executive-ready deliverables</p>
+            <h2 id="deliverables-title">Concrete assets your teams can keep using.</h2>
           </div>
-          <div className="testimonial-grid">
-            <article className="testimonial-card">
-              <p>"Advanta365 gave our rollout a structure people could understand. Governance finally felt usable, and adoption became a shared responsibility."</p>
-              <footer>
-                <strong>Director of Digital Workplace</strong>
-                <span>National public sector organization</span>
-              </footer>
-            </article>
-            <article className="testimonial-card">
-              <p>"Their enablement model connected leaders, site owners, and frontline users in a way that made Microsoft 365 feel less fragmented."</p>
-              <footer>
-                <strong>VP, Enterprise Technology</strong>
-                <span>Financial services group</span>
-              </footer>
-            </article>
-            <article className="testimonial-card">
-              <p>"The wave-based approach gave us momentum without overwhelming teams. It was disciplined, practical, and very human."</p>
-              <footer>
-                <strong>Change Management Lead</strong>
-                <span>Healthcare network</span>
-              </footer>
-            </article>
+          <div className="deliverable-grid">
+            {deliverables.map(([title, copy]) => (
+              <article className="deliverable-card" key={title}>
+                <h3>{title}</h3>
+                <p>{copy}</p>
+              </article>
+            ))}
           </div>
           <div className="credibility-row" aria-label="Credibility indicators">
             {["Enterprise rollout planning", "Government-ready governance", "Accessibility-conscious enablement", "Executive reporting cadence"].map((item) => (
@@ -357,13 +381,35 @@ export default function Home() {
           </div>
         </section>
 
+        <section className="faq-section section-light" aria-labelledby="faq-title">
+          <div className="section-heading align-left">
+            <p className="eyebrow">Common questions</p>
+            <h2 id="faq-title">Practical answers before the first workshop.</h2>
+          </div>
+          <div className="faq-grid">
+            {faqs.map(([question, answer]) => (
+              <article className="faq-item" key={question}>
+                <h3>{question}</h3>
+                <p>{answer}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
         <section id="contact" className="final-cta section-light" aria-labelledby="cta-title">
           <div>
             <p className="eyebrow">Modernize with confidence</p>
             <h2 id="cta-title">Build a Microsoft 365 experience your people will actually adopt.</h2>
-            <p>Bring structure, readiness, and lasting adoption to your SharePoint Online, Microsoft Teams, OneDrive, and governance initiatives.</p>
+            <p>Bring structure, readiness, and lasting adoption to your SharePoint Online, Microsoft Teams, OneDrive, Power Platform, and governance initiatives.</p>
           </div>
-          <a className="btn btn-primary" href="mailto:hello@advanta365.example">Plan your Advanta365 roadmap</a>
+          <div className="contact-panel">
+            <span>Best first step</span>
+            <strong>Book a roadmap conversation</strong>
+            <p>Share what is live, what feels messy, and what your leaders need to see next.</p>
+            <a className="btn btn-primary" href={`mailto:${contactEmail}?subject=Advanta365%20roadmap%20conversation`}>
+              Email Advanta365 <CtaIcon />
+            </a>
+          </div>
         </section>
       </main>
 
@@ -388,16 +434,16 @@ export default function Home() {
         </div>
         <div>
           <h2>Resources</h2>
-          <a href="#journey">Adoption journey</a>
+          <a href="#diagnostic">Readiness diagnostic</a>
           <a href="#framework">Methodology</a>
           <a href="#outcomes">Outcomes</a>
         </div>
         <div>
           <h2>Contact</h2>
-          <a href="mailto:hello@advanta365.example">hello@advanta365.example</a>
-          <a href="#">LinkedIn</a>
-          <a href="#">Newsletter</a>
-          <a href="#">Privacy</a>
+          <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+          <a href="#diagnostic">Readiness review</a>
+          <a href="#faq-title">FAQ</a>
+          <a href="#contact">Roadmap conversation</a>
         </div>
       </footer>
     </>
