@@ -26,7 +26,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 108px;
+  scroll-padding-top: 120px;
 }
 
 body {
@@ -115,6 +115,7 @@ a {
   color: var(--white);
   transform: translateX(-50%);
   transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+  max-height: 64px;
 }
 
 .site-header.is-scrolled {
@@ -278,7 +279,7 @@ a {
 .section-muted {
   position: relative;
   padding: 108px max(24px, calc((100vw - var(--max)) / 2));
-  scroll-margin-top: 96px;
+  scroll-margin-top: 120px;
 }
 
 .section-dark {
@@ -301,7 +302,7 @@ a {
   display: flex;
   align-items: center;
   min-height: 92svh;
-  padding-top: 148px;
+  padding-top: 120px;
   padding-bottom: 88px;
   overflow: hidden;
   isolation: isolate;
@@ -342,12 +343,13 @@ a {
   z-index: 1;
   width: min(48vw, 620px);
   pointer-events: none;
+  overflow: hidden;
 }
 
 .visual-shell {
   position: absolute;
   right: 0;
-  top: 52%;
+  top: 50%;
   width: min(100%, 620px);
   min-height: 560px;
   padding: 18px;
@@ -359,6 +361,8 @@ a {
   box-shadow: 0 34px 120px rgba(0, 0, 0, 0.38);
   backdrop-filter: blur(22px);
   transform: translateY(-50%);
+  max-height: 80vh;
+  overflow: hidden;
 }
 
 .visual-shell::before {
@@ -772,7 +776,7 @@ p {
 
 .diagnostic-copy {
   position: sticky;
-  top: 120px;
+  top: 140px;
   max-width: 500px;
 }
 
@@ -1062,26 +1066,31 @@ p {
   color: var(--ink);
   font-size: 0.9rem;
   font-weight: 800;
+  z-index: 2;
 }
 
 .ring-a {
   left: 48px;
   top: 72px;
+  max-width: 140px;
 }
 
 .ring-b {
   right: 48px;
   top: 108px;
+  max-width: 140px;
 }
 
 .ring-c {
   left: 70px;
   bottom: 170px;
+  max-width: 140px;
 }
 
 .ring-d {
   right: 70px;
   bottom: 150px;
+  max-width: 140px;
 }
 
 .method-flow {
@@ -1412,6 +1421,7 @@ p {
     border-radius: var(--radius);
     background: rgba(7, 17, 31, 0.96);
     box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+    z-index: 51;
   }
 
   .site-header.nav-active .mobile-nav-cta {
@@ -1426,6 +1436,7 @@ p {
   .hero {
     min-height: 90svh;
     padding-bottom: 108px;
+    padding-top: 120px;
   }
 
   .hero-content {
@@ -1435,6 +1446,7 @@ p {
   .hero-visual {
     opacity: 0.42;
     width: min(72vw, 620px);
+    max-height: 70vh;
   }
 
   .value-grid,
@@ -1485,7 +1497,7 @@ p {
     display: grid;
     gap: 34px;
     min-height: auto;
-    padding-top: 112px;
+    padding-top: 110px;
     padding-bottom: 78px;
   }
 
@@ -1526,6 +1538,7 @@ p {
     min-height: 0;
     padding: 14px;
     transform: none;
+    max-height: 60vh;
   }
 
   .visual-shell::before {
@@ -1591,26 +1604,31 @@ p {
   .method-ring {
     min-width: 132px;
     font-size: 0.78rem;
+    max-width: 120px;
   }
 
   .ring-a {
     left: 18px;
     top: 38px;
+    max-width: 120px;
   }
 
   .ring-b {
     right: 18px;
     top: 92px;
+    max-width: 120px;
   }
 
   .ring-c {
     left: 18px;
     bottom: 222px;
+    max-width: 120px;
   }
 
   .ring-d {
     right: 18px;
     bottom: 178px;
+    max-width: 120px;
   }
 
   .method-flow {
