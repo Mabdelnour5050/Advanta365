@@ -20,15 +20,15 @@ export default function Home() {
     <SiteLayout>
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-b from-secondary via-background to-background">
-        <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0 opacity-20 pointer-events-none">
           <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
         </div>
 
         <div className="container relative z-10 py-16 md:py-24 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             {/* Left Content */}
-            <div className="space-y-6 md:space-y-8">
+            <div className="space-y-6 md:space-y-8 pr-0 lg:pr-8">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border">
                 <Zap className="w-4 h-4 text-accent" />
                 <span className="text-sm font-medium text-foreground">
@@ -38,7 +38,7 @@ export default function Home() {
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-foreground">
                 Make Microsoft 365{" "}
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent break-words">
                   governed, adopted, and sustainable
                 </span>{" "}
                 — at enterprise scale.
@@ -72,17 +72,18 @@ export default function Home() {
             </div>
 
             {/* Right Visual */}
-            <div className="relative h-96 md:h-full hidden lg:block">
+            <div className="relative h-96 md:h-[500px] lg:h-full hidden lg:block">
               <img
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/hero-main-W2BZehWshgnFmxuU4eaztg.webp"
                 alt="Enterprise Microsoft 365 Framework"
                 className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                loading="lazy"
               />
             </div>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 md:gap-8 mt-16 md:mt-24 pt-16 md:pt-24 border-t border-border">
+          <div className="grid grid-cols-3 gap-4 md:gap-8 mt-16 md:mt-24 pt-12 md:pt-16 border-t border-border">
             {stats.map((stat, idx) => (
               <div key={idx} className="text-center">
                 <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-2">
@@ -100,17 +101,17 @@ export default function Home() {
       {/* Delivery Flow Section */}
       <section className="py-16 md:py-24 lg:py-32 bg-background">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
               Delivery Flow
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               {deliveryNote}
             </p>
           </div>
 
           {/* Timeline */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-6">
             {deliveryStages.map((stage, idx) => (
               <div key={idx} className="relative">
                 <div className="floating-card p-6 text-center">
@@ -133,7 +134,7 @@ export default function Home() {
       {/* What is ADVANTA365 Section */}
       <section className="py-16 md:py-24 lg:py-32 bg-secondary/50">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
             {/* Left */}
             <div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
@@ -156,7 +157,7 @@ export default function Home() {
             </div>
 
             {/* Right - Principles Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 lg:gap-6">
               {whatIsSection.principles.map((principle, idx) => (
                 <div
                   key={idx}
@@ -181,11 +182,11 @@ export default function Home() {
       {/* Problems Section */}
       <section className="py-16 md:py-24 lg:py-32 bg-background">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
               Why organizations struggle
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               The familiar problems we hear in every M365 program. Technology adoption fails when organizations focus only on technology. These are the patterns ADVANTA365 is built to solve.
             </p>
           </div>
@@ -224,11 +225,11 @@ export default function Home() {
       {/* Core Principles Section */}
       <section className="py-16 md:py-24 lg:py-32 bg-secondary/50">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
               Core principles
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               Seven beliefs that shape every engagement.
             </p>
           </div>
@@ -251,14 +252,14 @@ export default function Home() {
       {/* Modules Section */}
       <section className="py-16 md:py-24 lg:py-32 bg-background">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
               The ADVANTA modules
             </h2>
-            <p className="text-lg text-muted-foreground mb-6">
+            <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
               One framework. Five working modules.
             </p>
-            <p className="text-muted-foreground">
+            <p className="text-muted-foreground leading-relaxed">
               From governed provisioning to enterprise classification — the modules turn methodology into daily operations.
             </p>
           </div>
@@ -298,11 +299,11 @@ export default function Home() {
       {/* Differentiators Section */}
       <section className="py-16 md:py-24 lg:py-32 bg-secondary/50">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16">
+          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
               What makes us different
             </h2>
-            <p className="text-lg text-muted-foreground">
+            <p className="text-lg text-muted-foreground leading-relaxed">
               Built specifically for large, complex, regulated organizations.
             </p>
           </div>
