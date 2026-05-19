@@ -25,18 +25,18 @@ export default function Home() {
           <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
         </div>
 
-        <div className="container relative z-10 py-16 md:py-24 lg:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+        <div className="container relative z-10 py-12 md:py-20 lg:py-28 xl:py-32">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-20 items-center">
             {/* Left Content */}
             <div className="space-y-6 md:space-y-8 pr-0 lg:pr-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border">
-                <Zap className="w-4 h-4 text-accent" />
-                <span className="text-sm font-medium text-foreground">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-secondary border border-border text-xs md:text-sm">
+                <Zap className="w-3 h-3 md:w-4 md:h-4 text-accent" />
+                <span className="font-medium text-foreground">
                   {heroContent.subtitle}
                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-foreground">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-foreground">
                 Make Microsoft 365{" "}
                 <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent break-words">
                   governed, adopted, and sustainable
@@ -44,11 +44,11 @@ export default function Home() {
                 — at enterprise scale.
               </h1>
 
-              <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-lg">
+              <p className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-lg">
                 {heroContent.description}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4">
                 <Link href="/contact">
                   <a>
                     <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
@@ -83,13 +83,13 @@ export default function Home() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 md:gap-8 mt-16 md:mt-24 pt-12 md:pt-16 border-t border-border">
+          <div className="grid grid-cols-3 gap-4 md:gap-8 lg:gap-12 mt-12 md:mt-16 lg:mt-20 pt-8 md:pt-12 lg:pt-16 border-t border-border">
             {stats.map((stat, idx) => (
               <div key={idx} className="text-center">
-                <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary mb-2">
+                <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-primary mb-1 md:mb-2">
                   {stat.number}
                 </div>
-                <p className="text-xs md:text-sm text-muted-foreground">
+                <p className="text-xs md:text-sm lg:text-base text-muted-foreground">
                   {stat.label}
                 </p>
               </div>
@@ -99,19 +99,19 @@ export default function Home() {
       </section>
 
       {/* Delivery Flow Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-background">
+      <section className="py-12 md:py-20 lg:py-28 xl:py-32 bg-background">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 lg:mb-20">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 md:mb-4">
               Delivery Flow
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed">
               {deliveryNote}
             </p>
           </div>
 
           {/* Timeline */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3 lg:gap-4 xl:gap-6">
             {deliveryStages.map((stage, idx) => (
               <div key={idx} className="relative">
                 <div className="floating-card p-6 text-center">
@@ -132,9 +132,9 @@ export default function Home() {
       </section>
 
       {/* What is ADVANTA365 Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-secondary/50">
+      <section className="py-12 md:py-20 lg:py-28 xl:py-32 bg-secondary/50">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-20 items-start">
             {/* Left */}
             <div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
@@ -163,15 +163,15 @@ export default function Home() {
                   key={idx}
                   className="card-elevated p-6 md:p-8 space-y-3"
                 >
-                  <div className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
-                    <h4 className="font-semibold text-foreground">
-                      {principle.title}
-                    </h4>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {principle.description}
-                  </p>
+                <div className="flex items-start gap-2 md:gap-3">
+                  <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-accent flex-shrink-0 mt-0.5 md:mt-1" />
+                  <h4 className="font-semibold text-sm md:text-base text-foreground">
+                    {principle.title}
+                  </h4>
+                </div>
+                <p className="text-xs md:text-sm text-muted-foreground">
+                  {principle.description}
+                </p>
                 </div>
               ))}
             </div>
@@ -180,18 +180,18 @@ export default function Home() {
       </section>
 
       {/* Problems Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-background">
+      <section className="py-12 md:py-20 lg:py-28 xl:py-32 bg-background">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
+          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 lg:mb-20">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 md:mb-4">
               Why organizations struggle
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed">
               The familiar problems we hear in every M365 program. Technology adoption fails when organizations focus only on technology. These are the patterns ADVANTA365 is built to solve.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
             {problems.map((problem, idx) => (
               <div key={idx} className="card-elevated p-6 md:p-8 space-y-3">
                 <div className="flex items-start gap-3">
