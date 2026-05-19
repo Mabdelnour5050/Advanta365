@@ -10,7 +10,6 @@ yarn-error.log
 .next
 out
 build
-dist
 coverage
 .vscode
 .idea
