@@ -65,8 +65,8 @@
   --chart-4: #0A5F6F;
   --chart-5: #084E5E;
   
-  /* Radius - Subtle rounding */
-  --radius: 0.5rem;
+  /* Radius - Minimal, sharp edges for sleek aesthetic */
+  --radius: 0.25rem;
   
   /* Light theme - Clean, minimal, professional */
   --background: #FAFAF8;
@@ -199,21 +199,21 @@
     }
   }
 
-  /* Modern Enterprise Minimalism - Depth and Shadows */
+  /* Sleek Enterprise Design - Sharp, minimal aesthetic */
   .card-elevated {
-    @apply bg-card text-card-foreground rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300;
+    @apply bg-card text-card-foreground rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 border border-border/50;
   }
 
   .card-subtle {
-    @apply bg-secondary text-foreground rounded-lg border border-border;
+    @apply bg-secondary text-foreground rounded-sm border border-border;
   }
 
-  /* Floating effect for interactive elements */
+  /* Sleek floating effect - minimal lift */
   .floating-card {
-    @apply bg-card text-card-foreground rounded-lg shadow-md hover:shadow-lg hover:translate-y-[-4px] transition-all duration-300;
+    @apply bg-card text-card-foreground rounded-sm shadow-sm hover:shadow-md hover:translate-y-[-2px] transition-all duration-300 border border-border/50;
   }
 
-  /* Gradient underline for headings */
+  /* Sharp underline for headings */
   .heading-gradient {
     @apply relative inline-block;
   }
@@ -224,9 +224,9 @@
     bottom: -8px;
     left: 0;
     width: 100%;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(90deg, #0D7377 0%, #14B8A6 100%);
-    border-radius: 2px;
+    border-radius: 0;
   }
 
   /* Smooth transitions for all interactive elements */

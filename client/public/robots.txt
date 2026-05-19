@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /private
+
+# Sitemap
+Sitemap: https://advanta365.com/sitemap.xml
+
+# Crawl delay (optional, in seconds)
+Crawl-delay: 1
