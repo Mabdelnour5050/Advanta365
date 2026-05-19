@@ -203,7 +203,8 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+// Filter out Manus-specific plugins for Vercel deployment
+const plugins = process.env.VERCEL ? [react(), tailwindcss(), jsxLocPlugin()] : [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
 
 export default defineConfig({
   plugins,
@@ -214,15 +215,24 @@ export default defineConfig({
       "@assets": path.resolve(import.meta.dirname, "attached_assets"),
     },
   },
-  envDir: path.resolve(import.meta.dirname),
+  envDir: process.env.VERCEL ? undefined : path.resolve(import.meta.dirname),
   root: path.resolve(import.meta.dirname, "client"),
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom', '@radix-ui/react-dialog', '@radix-ui/react-popover'],
+          'ui': ['lucide-react', 'sonner'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
   },
   server: {
     port: 3000,
-    strictPort: false, // Will find next available port if 3000 is busy
+    strictPort: false,
     host: true,
     allowedHosts: [
       ".manuspre.computer",
@@ -237,5 +247,9 @@ export default defineConfig({
       strict: true,
       deny: ["**/.*"],
     },
+  },
+  preview: {
+    port: 3000,
+    host: true,
   },
 });
