@@ -2,8 +2,15 @@ import Link from "next/link";
 import { AlertCircle, Home } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata = { title: "Page Not Found" };
+export const metadata = buildMetadata({
+  title: "Page Not Found",
+  description:
+    "The page you're looking for doesn't exist. Browse the ADVANTA365 framework, modules, and adoption approach from the home page.",
+  path: "404",
+  noindex: true,
+});
 
 export default function NotFound() {
   return (

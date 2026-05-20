@@ -1,3 +1,4 @@
+import Script from "next/script";
 import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/sections/PageHero";
 import SectionShell from "@/components/sections/SectionShell";
@@ -6,8 +7,28 @@ import CardGrid, { type GridItem } from "@/components/sections/CardGrid";
 import CTABand from "@/components/sections/CTABand";
 import MotionReveal from "@/components/MotionReveal";
 import { deliveryStages, modules } from "@/lib/content";
+import {
+  buildMetadata,
+  itemListSchema,
+  jsonLd,
+  serviceSchema,
+  webPageSchema,
+} from "@/lib/seo";
 
-export const metadata = { title: "Framework" };
+export const metadata = buildMetadata({
+  title: "ADVANTA365 Framework — Seven Stages, Five Modules",
+  description:
+    "A comprehensive operating model: seven-stage delivery (Vision → Strategy → Planning → Enablement → Rollout → Sustainment) and five working modules (Requests, Blueprint, Classify, Engage) for enterprise Microsoft 365 adoption and governance.",
+  path: "framework",
+  keywords: [
+    "Microsoft 365 framework",
+    "seven-stage delivery",
+    "M365 implementation methodology",
+    "structured rollout",
+    "Microsoft 365 operating model",
+    "ADVANTA modules",
+  ],
+});
 
 const moduleAccents = [
   "bg-gradient-to-br from-[#06B6D4] to-[#0D7377]",
@@ -23,8 +44,48 @@ export default function Framework() {
     number: stage.number,
   }));
 
+  const frameworkGraph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      webPageSchema({
+        path: "framework",
+        name: "ADVANTA365 Framework",
+        description:
+          "Seven-stage delivery model and five working modules — the operating model behind ADVANTA365.",
+        breadcrumb: [
+          { name: "Home", path: "" },
+          { name: "Framework", path: "framework" },
+        ],
+      }),
+      serviceSchema({
+        name: "ADVANTA365 Framework",
+        serviceType:
+          "Microsoft 365 Implementation, Adoption and Governance Framework",
+        description:
+          "Repeatable seven-stage delivery model paired with five operational modules covering provisioning, blueprint catalog, classification, and engagement.",
+        path: "framework",
+      }),
+      itemListSchema({
+        name: "ADVANTA365 Delivery Stages",
+        path: "framework",
+        items: deliveryStages.map((s) => ({ name: s.label })),
+      }),
+      itemListSchema({
+        name: "ADVANTA365 Modules",
+        path: "framework",
+        items: modules.map((m) => ({ name: m.title, description: m.description })),
+      }),
+    ],
+  };
+
   return (
     <SiteLayout>
+      <Script
+        id="ld-framework"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: jsonLd(frameworkGraph) }}
+      />
       <PageHero
         eyebrow="The framework"
         title="The ADVANTA365 framework"

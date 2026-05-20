@@ -3,6 +3,17 @@ import { Inter, Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Providers from "./providers";
+import {
+  BASE_KEYWORDS,
+  OG_IMAGE,
+  SITE_LOCALE,
+  SITE_NAME,
+  SITE_TAGLINE,
+  SITE_URL,
+  jsonLd,
+  organizationSchema,
+  websiteSchema,
+} from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,45 +27,55 @@ const geist = Geist({
   display: "swap",
 });
 
+const ROOT_DESCRIPTION =
+  "ADVANTA365 is the enterprise Microsoft 365 framework that combines governance, adoption, change management, and structured rollouts into one repeatable operating model for SharePoint Online, Teams, and OneDrive — built for large, complex, regulated organizations.";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://advanta365.com"),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default:
-      "ADVANTA365 — Enterprise Microsoft 365 Adoption, Governance & Rollout",
-    template: "%s | ADVANTA365",
+    default: `${SITE_NAME} — ${SITE_TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "ADVANTA365 — Enterprise Microsoft 365 Adoption, Governance & Rollout Framework. Comprehensive operating model for large organizations deploying Microsoft 365 at scale.",
-  keywords: [
-    "Microsoft 365",
-    "adoption",
-    "governance",
-    "enterprise",
-    "SharePoint",
-    "Teams",
-    "framework",
-    "implementation",
-  ],
-  authors: [{ name: "ADVANTA365" }],
-  robots: { index: true, follow: true },
-  alternates: { canonical: "/" },
+  description: ROOT_DESCRIPTION,
+  applicationName: SITE_NAME,
+  generator: "Next.js",
+  referrer: "origin-when-cross-origin",
+  creator: SITE_NAME,
+  publisher: SITE_NAME,
+  authors: [{ name: SITE_NAME, url: SITE_URL }],
+  keywords: BASE_KEYWORDS,
+  category: "technology",
+  alternates: {
+    canonical: "/",
+    languages: { "en-US": "/" },
+  },
+  robots: {
+    index: true,
+    follow: true,
+    nocache: false,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
     type: "website",
-    title: "ADVANTA365 — Enterprise Microsoft 365 Framework",
-    description:
-      "Enterprise-grade Microsoft 365 adoption, governance, implementation, and enablement framework.",
-    images: [
-      "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-VjzaoUzzqBZw6AXtUMMWaR.webp",
-    ],
+    url: SITE_URL,
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Enterprise Microsoft 365 Framework`,
+    description: ROOT_DESCRIPTION,
+    locale: SITE_LOCALE,
+    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ADVANTA365 — Enterprise Microsoft 365 Framework",
+    title: `${SITE_NAME} — Enterprise Microsoft 365 Framework`,
     description:
-      "Enterprise-grade Microsoft 365 adoption, governance, and enablement framework.",
-    images: [
-      "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-VjzaoUzzqBZw6AXtUMMWaR.webp",
-    ],
+      "Enterprise-grade Microsoft 365 adoption, governance, implementation, and enablement framework.",
+    images: [OG_IMAGE.url],
   },
   icons: {
     icon: [
@@ -72,22 +93,28 @@ export const metadata: Metadata = {
     apple:
       "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-H7Z8tUbL6UHeFwN2z6g6tN.png",
   },
+  manifest: "/manifest.json",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0D7377",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FAFAF8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0F172A" },
+  ],
   colorScheme: "light",
+  width: "device-width",
+  initialScale: 1,
 };
 
-const organizationJsonLd = {
+/* Root-level JSON-LD: Organization + WebSite (linked by @id) */
+const rootGraph = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: "ADVANTA365",
-  url: "https://advanta365.com",
-  logo: "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-H7Z8tUbL6UHeFwN2z6g6tN.png",
-  description:
-    "Enterprise Microsoft 365 adoption, governance, implementation, and enablement framework",
-  sameAs: [],
+  "@graph": [organizationSchema(), websiteSchema()],
 };
 
 export default function RootLayout({
@@ -101,14 +128,17 @@ export default function RootLayout({
       className={`${inter.variable} ${geist.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="preconnect" href="https://d2xsxph8kpxj0f.cloudfront.net" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://d2xsxph8kpxj0f.cloudfront.net" />
+      </head>
       <body className="font-sans antialiased" style={{ margin: 0, padding: 0 }}>
         <Providers>{children}</Providers>
         <Script
-          id="ld-org"
+          id="ld-root"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationJsonLd),
-          }}
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: jsonLd(rootGraph) }}
         />
       </body>
     </html>

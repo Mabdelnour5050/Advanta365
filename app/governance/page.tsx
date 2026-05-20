@@ -1,3 +1,4 @@
+import Script from "next/script";
 import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/sections/PageHero";
 import SectionShell from "@/components/sections/SectionShell";
@@ -6,8 +7,29 @@ import CardGrid, { type GridItem } from "@/components/sections/CardGrid";
 import CTABand from "@/components/sections/CTABand";
 import MotionReveal from "@/components/MotionReveal";
 import { modules } from "@/lib/content";
+import {
+  buildMetadata,
+  itemListSchema,
+  jsonLd,
+  serviceSchema,
+  webPageSchema,
+} from "@/lib/seo";
 
-export const metadata = { title: "Governance" };
+export const metadata = buildMetadata({
+  title: "Governance by Design — Microsoft 365 at Enterprise Scale",
+  description:
+    "Embed governance into provisioning, templates, and onboarding — not as policy documents. Five working modules operationalize governance across SharePoint, Teams, and OneDrive for large, regulated organizations.",
+  path: "governance",
+  keywords: [
+    "Microsoft 365 governance",
+    "SharePoint governance",
+    "Teams governance",
+    "governed provisioning",
+    "M365 policy automation",
+    "regulated organizations",
+    "governance by design",
+  ],
+});
 
 const moduleAccents = [
   "bg-gradient-to-br from-[#06B6D4] to-[#0D7377]",
@@ -25,8 +47,42 @@ export default function Governance() {
     accent: moduleAccents[idx],
   }));
 
+  const governanceGraph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      webPageSchema({
+        path: "governance",
+        name: "Governance by Design",
+        description:
+          "Embed governance into provisioning, templates, and onboarding across Microsoft 365.",
+        breadcrumb: [
+          { name: "Home", path: "" },
+          { name: "Governance", path: "governance" },
+        ],
+      }),
+      serviceSchema({
+        name: "Microsoft 365 Governance by Design",
+        serviceType: "Microsoft 365 Governance and Information Management",
+        description:
+          "Operational governance embedded into provisioning, templates, classification, and onboarding for SharePoint Online, Microsoft Teams, and OneDrive.",
+        path: "governance",
+      }),
+      itemListSchema({
+        name: "ADVANTA365 Governance Modules",
+        path: "governance",
+        items: modules.map((m) => ({ name: m.title, description: m.description })),
+      }),
+    ],
+  };
+
   return (
     <SiteLayout>
+      <Script
+        id="ld-governance"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: jsonLd(governanceGraph) }}
+      />
       <PageHero
         eyebrow="By design"
         title="Governance by design"

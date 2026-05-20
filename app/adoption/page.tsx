@@ -1,3 +1,4 @@
+import Script from "next/script";
 import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/sections/PageHero";
 import SectionShell from "@/components/sections/SectionShell";
@@ -7,8 +8,30 @@ import CTABand from "@/components/sections/CTABand";
 import MotionReveal from "@/components/MotionReveal";
 import { adoptionSuccessFactors, trainingPrinciples } from "@/lib/content";
 import { CheckCircle2 } from "lucide-react";
+import {
+  buildMetadata,
+  itemListSchema,
+  jsonLd,
+  serviceSchema,
+  webPageSchema,
+} from "@/lib/seo";
 
-export const metadata = { title: "Adoption" };
+export const metadata = buildMetadata({
+  title: "Microsoft 365 Adoption & Enablement",
+  description:
+    "Structured, role-based adoption that drives real behavioural change and sustained engagement with Microsoft 365 — long after launch day. Built on Prosci / ADKAR, communities of practice, and learning ecosystems.",
+  path: "adoption",
+  keywords: [
+    "Microsoft 365 adoption",
+    "M365 enablement",
+    "user adoption",
+    "Prosci ADKAR",
+    "change management",
+    "role-based training",
+    "communities of practice",
+    "site owner enablement",
+  ],
+});
 
 export default function Adoption() {
   const principleItems: GridItem[] = trainingPrinciples.map((p) => ({
@@ -16,8 +39,47 @@ export default function Adoption() {
     icon: <CheckCircle2 className="w-5 h-5" />,
   }));
 
+  const adoptionGraph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      webPageSchema({
+        path: "adoption",
+        name: "Microsoft 365 Adoption & Enablement",
+        description:
+          "Structured, role-based adoption methodology for enterprise Microsoft 365 programs.",
+        breadcrumb: [
+          { name: "Home", path: "" },
+          { name: "Adoption", path: "adoption" },
+        ],
+      }),
+      serviceSchema({
+        name: "Microsoft 365 Adoption & Enablement",
+        serviceType: "Microsoft 365 Adoption, Change Management and Enablement",
+        description:
+          "Role-based, scenario-driven enablement journeys reinforced over time through workshops, learning portals, and communities of practice.",
+        path: "adoption",
+      }),
+      itemListSchema({
+        name: "Training Principles",
+        path: "adoption",
+        items: trainingPrinciples.map((t) => ({ name: t })),
+      }),
+      itemListSchema({
+        name: "Adoption Success Factors",
+        path: "adoption",
+        items: adoptionSuccessFactors.map((f) => ({ name: f })),
+      }),
+    ],
+  };
+
   return (
     <SiteLayout>
+      <Script
+        id="ld-adoption"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: jsonLd(adoptionGraph) }}
+      />
       <PageHero
         eyebrow="Adoption & enablement"
         title="Adoption that actually sticks"

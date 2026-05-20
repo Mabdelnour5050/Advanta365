@@ -1,3 +1,4 @@
+import Script from "next/script";
 import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/sections/PageHero";
 import SectionShell from "@/components/sections/SectionShell";
@@ -9,8 +10,29 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { differentiators, problems } from "@/lib/content";
+import {
+  buildMetadata,
+  faqSchema,
+  itemListSchema,
+  jsonLd,
+  webPageSchema,
+} from "@/lib/seo";
 
-export const metadata = { title: "Why ADVANTA365" };
+export const metadata = buildMetadata({
+  title: "Why ADVANTA365 — Built for Enterprise Complexity",
+  description:
+    "Nine M365 problems we solve and eight reasons ADVANTA365 fits large, complex, regulated organizations. Governance and adoption together — not as separate workstreams.",
+  path: "why",
+  keywords: [
+    "why Microsoft 365 fails",
+    "Microsoft 365 sprawl",
+    "SharePoint chaos",
+    "M365 adoption failure",
+    "regulated organizations",
+    "enterprise complexity",
+    "Microsoft 365 ownership",
+  ],
+});
 
 export default function Why() {
   const problemItems: GridItem[] = problems.map((p, idx) => ({
@@ -25,8 +47,46 @@ export default function Why() {
     description: d.description,
   }));
 
+  const whyGraph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      webPageSchema({
+        path: "why",
+        name: "Why ADVANTA365",
+        description:
+          "Built specifically for large, complex, regulated organizations — combining governance and adoption into one operating model.",
+        breadcrumb: [
+          { name: "Home", path: "" },
+          { name: "Why ADVANTA365", path: "why" },
+        ],
+      }),
+      itemListSchema({
+        name: "Problems ADVANTA365 Solves",
+        path: "why",
+        items: problems.map((p) => ({ name: p.title, description: p.description })),
+      }),
+      itemListSchema({
+        name: "ADVANTA365 Differentiators",
+        path: "why",
+        items: differentiators.map((d) => ({ name: d.title, description: d.description })),
+      }),
+      faqSchema(
+        problems.map((p) => ({
+          question: `How does ADVANTA365 address ${p.title.toLowerCase()}?`,
+          answer: `${p.description} ADVANTA365 addresses this through governance-by-design, role-based enablement, and sustained reinforcement embedded into provisioning and onboarding.`,
+        })),
+      ),
+    ],
+  };
+
   return (
     <SiteLayout>
+      <Script
+        id="ld-why"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: jsonLd(whyGraph) }}
+      />
       <PageHero
         eyebrow="Why ADVANTA365"
         title="Built for enterprise complexity"

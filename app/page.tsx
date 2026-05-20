@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import Script from "next/script";
 import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SiteLayout from "@/components/SiteLayout";
@@ -21,6 +22,28 @@ import {
   stats,
   whatIsSection,
 } from "@/lib/content";
+import {
+  buildMetadata,
+  itemListSchema,
+  jsonLd,
+  serviceSchema,
+  webPageSchema,
+} from "@/lib/seo";
+
+export const metadata = buildMetadata({
+  title: "ADVANTA365 — Enterprise Microsoft 365 Adoption, Governance & Rollout",
+  description:
+    "The enterprise Microsoft 365 framework that combines governance, adoption, change management, and structured rollouts into one repeatable operating model — built for large, complex, regulated organizations.",
+  path: "",
+  keywords: [
+    "M365 framework",
+    "governance by design",
+    "structured rollout",
+    "role-based enablement",
+    "site owner training",
+    "SharePoint adoption framework",
+  ],
+});
 
 const moduleAccents = [
   "bg-gradient-to-br from-[#06B6D4] to-[#0D7377]",
@@ -56,8 +79,44 @@ export default function Home() {
     description: d.description,
   }));
 
+  const homeGraph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      webPageSchema({
+        path: "",
+        name: "ADVANTA365 — Enterprise Microsoft 365 Adoption, Governance & Rollout",
+        description:
+          "Enterprise Microsoft 365 framework combining governance, adoption, change management, and structured rollouts into one repeatable operating model.",
+      }),
+      serviceSchema({
+        name: "ADVANTA365 Framework",
+        serviceType:
+          "Microsoft 365 Adoption, Governance, Implementation and Enablement Framework",
+        description:
+          "A comprehensive operating model that combines governance, adoption, change management, and structured rollouts for SharePoint Online, Microsoft Teams, OneDrive, and the broader Microsoft 365 ecosystem.",
+        path: "/",
+      }),
+      itemListSchema({
+        name: "ADVANTA Modules",
+        path: "/",
+        items: modules.map((m) => ({ name: m.title, description: m.description })),
+      }),
+      itemListSchema({
+        name: "ADVANTA365 Delivery Stages",
+        path: "/",
+        items: deliveryStages.map((s) => ({ name: s.label })),
+      }),
+    ],
+  };
+
   return (
     <SiteLayout>
+      <Script
+        id="ld-home"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: jsonLd(homeGraph) }}
+      />
       {/* ───────────── Hero ───────────── */}
       <section className="relative overflow-hidden bg-gradient-to-b from-secondary via-background to-background pt-24 md:pt-28 wide:pt-32">
         {/* Decorative blobs */}

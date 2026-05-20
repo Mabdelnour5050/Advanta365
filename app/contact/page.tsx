@@ -1,31 +1,54 @@
-"use client";
-
-import { useState } from "react";
-import { toast } from "sonner";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import Script from "next/script";
 import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/sections/PageHero";
 import MotionReveal from "@/components/MotionReveal";
-import { ArrowRight } from "lucide-react";
+import ContactForm from "./ContactForm";
+import {
+  buildMetadata,
+  contactPageSchema,
+  jsonLd,
+  webPageSchema,
+} from "@/lib/seo";
+
+export const metadata = buildMetadata({
+  title: "Contact — Talk to ADVANTA365",
+  description:
+    "Talk to our team about your Microsoft 365 adoption, governance, and enablement program. We work with large, complex, and regulated organizations worldwide.",
+  path: "contact",
+  keywords: [
+    "contact ADVANTA365",
+    "Microsoft 365 consultation",
+    "M365 readiness review",
+    "enterprise Microsoft 365 consulting",
+  ],
+});
+
+const contactGraph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    webPageSchema({
+      path: "contact",
+      name: "Contact ADVANTA365",
+      description:
+        "Get in touch with our team about your Microsoft 365 adoption, governance, and enablement program.",
+      breadcrumb: [
+        { name: "Home", path: "" },
+        { name: "Contact", path: "contact" },
+      ],
+    }),
+    contactPageSchema(),
+  ],
+};
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success("Thank you for reaching out! We'll be in touch soon.");
-    setFormData({ name: "", email: "", company: "", message: "" });
-  };
-
   return (
     <SiteLayout>
+      <Script
+        id="ld-contact"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: jsonLd(contactGraph) }}
+      />
       <PageHero
         eyebrow="Talk to us"
         title="Get in touch"
@@ -38,71 +61,7 @@ export default function Contact() {
             {/* Form */}
             <MotionReveal from="up" className="lg:col-span-7">
               <div className="card-elevated p-6 md:p-8 wide:p-10">
-                <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-foreground mb-2">
-                      Full name
-                    </label>
-                    <Input
-                      id="name"
-                      type="text"
-                      placeholder="Your name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-foreground mb-2">
-                      Email address
-                    </label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="your@email.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-foreground mb-2">
-                      Company
-                    </label>
-                    <Input
-                      id="company"
-                      type="text"
-                      placeholder="Your organization"
-                      value={formData.company}
-                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-                    />
-                  </div>
-
-                  <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-foreground mb-2">
-                      Message
-                    </label>
-                    <Textarea
-                      id="message"
-                      placeholder="Tell us about your Microsoft 365 program..."
-                      value={formData.message}
-                      onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                      required
-                      rows={6}
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
-                  >
-                    Send message
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </form>
+                <ContactForm />
               </div>
             </MotionReveal>
 

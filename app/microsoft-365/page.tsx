@@ -1,3 +1,4 @@
+import Script from "next/script";
 import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/sections/PageHero";
 import SectionShell from "@/components/sections/SectionShell";
@@ -5,8 +6,23 @@ import SectionHeader from "@/components/sections/SectionHeader";
 import CTABand from "@/components/sections/CTABand";
 import MotionReveal from "@/components/MotionReveal";
 import { microsoft365Focus } from "@/lib/content";
+import { buildMetadata, itemListSchema, jsonLd, webPageSchema } from "@/lib/seo";
 
-export const metadata = { title: "Microsoft 365" };
+export const metadata = buildMetadata({
+  title: "Microsoft 365 Focus — SharePoint, Teams, OneDrive",
+  description:
+    "Built specifically for SharePoint Online, Microsoft Teams, and OneDrive — not retrofitted from a generic collaboration framework. Three pillars of the modern digital workplace, governed and adopted together.",
+  path: "microsoft-365",
+  keywords: [
+    "SharePoint Online",
+    "Microsoft Teams",
+    "OneDrive for Business",
+    "modern intranet",
+    "digital workplace",
+    "M365 collaboration",
+    "metadata-driven SharePoint",
+  ],
+});
 
 const platformAccents = [
   "from-[#06B6D4] to-[#0D7377]",
@@ -15,8 +31,35 @@ const platformAccents = [
 ];
 
 export default function Microsoft365() {
+  const m365Graph = {
+    "@context": "https://schema.org",
+    "@graph": [
+      webPageSchema({
+        path: "microsoft-365",
+        name: "Microsoft 365 Focus",
+        description:
+          "Built for SharePoint Online, Microsoft Teams, and OneDrive — three pillars of the modern digital workplace.",
+        breadcrumb: [
+          { name: "Home", path: "" },
+          { name: "Microsoft 365", path: "microsoft-365" },
+        ],
+      }),
+      itemListSchema({
+        name: "Microsoft 365 Pillars",
+        path: "microsoft-365",
+        items: microsoft365Focus.map((p) => ({ name: p.name, description: p.role })),
+      }),
+    ],
+  };
+
   return (
     <SiteLayout>
+      <Script
+        id="ld-m365"
+        type="application/ld+json"
+        strategy="beforeInteractive"
+        dangerouslySetInnerHTML={{ __html: jsonLd(m365Graph) }}
+      />
       <PageHero
         eyebrow="Platform focus"
         title="Built for Microsoft 365"

@@ -3,10 +3,14 @@
   "short_name": "ADVANTA365",
   "description": "Enterprise Microsoft 365 adoption, governance, implementation, and enablement framework.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#FAFAF8",
   "theme_color": "#0D7377",
-  "orientation": "portrait-primary",
+  "orientation": "any",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["business", "productivity", "technology"],
   "icons": [
     {
       "src": "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-H7Z8tUbL6UHeFwN2z6g6tN.png",
@@ -22,19 +26,9 @@
     },
     {
       "src": "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-H7Z8tUbL6UHeFwN2z6g6tN.png",
-      "sizes": "192x192",
+      "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
     }
-  ],
-  "screenshots": [
-    {
-      "src": "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-H7Z8tUbL6UHeFwN2z6g6tN.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "form_factor": "narrow"
-    }
-  ],
-  "categories": ["business", "productivity"],
-  "screenshots_dark": []
+  ]
 }
