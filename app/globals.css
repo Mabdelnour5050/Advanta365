@@ -359,16 +359,16 @@
   }
 }
 
-/* Typography - Geist for display, Inter for body */
+/* Typography - Geist for display, Inter for body (loaded via next/font in app/layout.tsx) */
 @layer base {
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Geist', system-ui, sans-serif;
+    font-family: var(--font-display), 'Geist', system-ui, sans-serif;
     font-weight: 600;
     letter-spacing: -0.5px;
   }
 
   body, p, span, a, button {
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: var(--font-sans), 'Inter', system-ui, sans-serif;
     font-weight: 400;
   }
 
