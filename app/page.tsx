@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SiteLayout from "@/components/SiteLayout";
+import MotionReveal from "@/components/MotionReveal";
+import SectionShell from "@/components/sections/SectionShell";
+import SectionHeader from "@/components/sections/SectionHeader";
+import CardGrid, { type GridItem } from "@/components/sections/CardGrid";
+import CTABand from "@/components/sections/CTABand";
+import StatStrip from "@/components/sections/StatStrip";
 import {
   adoptionSuccessFactors,
   coreprinciples,
@@ -14,44 +21,87 @@ import {
   stats,
   whatIsSection,
 } from "@/lib/content";
-import { ArrowRight, CheckCircle2, Zap } from "lucide-react";
+
+const moduleAccents = [
+  "bg-gradient-to-br from-[#06B6D4] to-[#0D7377]",
+  "bg-gradient-to-br from-[#14B8A6] to-[#0A5F6F]",
+  "bg-gradient-to-br from-[#0D7377] to-[#084E5E]",
+  "bg-gradient-to-br from-[#0A5F6F] to-[#06B6D4]",
+  "bg-gradient-to-br from-[#14B8A6] to-[#06B6D4]",
+];
 
 export default function Home() {
+  const problemItems: GridItem[] = problems.slice(0, 6).map((p, idx) => ({
+    title: p.title,
+    description: p.description,
+    number: String(idx + 1).padStart(2, "0"),
+  }));
+
+  const principleItems: GridItem[] = coreprinciples.map((p) => ({
+    title: p.title,
+    description: p.description,
+  }));
+
+  const moduleItems: GridItem[] = modules.map((m, idx) => ({
+    title: m.title,
+    description: m.description,
+    number: idx + 1,
+    accent: moduleAccents[idx],
+  }));
+
+  // First differentiator becomes the featured callout; rest become outlined cards
+  const [featuredDiff, ...restDiffs] = differentiators;
+  const restDiffItems: GridItem[] = restDiffs.map((d) => ({
+    title: d.title,
+    description: d.description,
+  }));
+
   return (
     <SiteLayout>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-secondary via-background to-background">
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+      {/* ───────────── Hero ───────────── */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-secondary via-background to-background pt-24 md:pt-28 wide:pt-32">
+        {/* Decorative blobs */}
+        <div aria-hidden className="absolute inset-0 pointer-events-none opacity-70">
+          <div className="absolute top-10 right-[-6rem] w-[36rem] h-[36rem] rounded-full bg-accent/15 blur-3xl" />
+          <div className="absolute bottom-[-8rem] left-[-6rem] w-[36rem] h-[36rem] rounded-full bg-primary/15 blur-3xl" />
         </div>
+        {/* Subtle dot grid */}
+        <div
+          aria-hidden
+          className="decoration-grid absolute inset-0 opacity-[0.25] pointer-events-none"
+          style={{
+            maskImage:
+              "radial-gradient(ellipse at 60% 30%, black 40%, transparent 75%)",
+          }}
+        />
 
-        <div className="container relative z-10 py-12 md:py-20 lg:py-28 xl:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-20 items-center">
-            {/* Left Content */}
-            <div className="space-y-6 md:space-y-8 pr-0 lg:pr-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-secondary border border-border text-xs md:text-sm">
-                <Zap className="w-3 h-3 md:w-4 md:h-4 text-accent" />
-                <span className="font-medium text-foreground">
-                  {heroContent.subtitle}
-                </span>
-              </div>
+        <div className="container relative z-10 section-y-loose">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 lg:gap-16 wide:gap-20 items-center min-h-[clamp(28rem,68vh,46rem)]">
+            {/* Left content */}
+            <MotionReveal from="up" className="space-y-6 md:space-y-7">
+              <span className="inline-flex items-center gap-2 rounded-sm bg-secondary/80 border border-border px-3 py-1.5 text-xs md:text-sm font-medium text-foreground">
+                <Sparkles className="w-3.5 h-3.5 text-accent" aria-hidden />
+                {heroContent.subtitle}
+              </span>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-foreground">
+              <h1 className="h-display text-foreground">
                 Make Microsoft 365{" "}
-                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent break-words">
+                <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
                   governed, adopted, and sustainable
                 </span>{" "}
                 — at enterprise scale.
               </h1>
 
-              <p className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed max-w-lg">
+              <p className="body-lg text-muted-foreground max-w-[55ch]">
                 {heroContent.description}
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-2 md:pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 pt-1">
                 <Link href="/contact">
-                  <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
+                  <Button
+                    size="lg"
+                    className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"
+                  >
                     {heroContent.cta1}
                     <ArrowRight className="w-4 h-4" />
                   </Button>
@@ -60,91 +110,93 @@ export default function Home() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="border-border hover:bg-secondary"
+                    className="border-border bg-background/60 backdrop-blur-sm hover:bg-secondary"
                   >
                     {heroContent.cta2}
                   </Button>
                 </Link>
               </div>
-            </div>
+            </MotionReveal>
 
-            {/* Right Visual */}
-            <div className="relative h-96 md:h-[500px] lg:h-full hidden lg:block">
+            {/* Right visual — now shows from md+ */}
+            <MotionReveal
+              from="right"
+              delay={120}
+              className="relative aspect-[5/4] md:aspect-[6/5] lg:aspect-auto lg:h-[clamp(22rem,52vh,34rem)] wide:h-[clamp(26rem,55vh,40rem)] rounded-sm overflow-hidden"
+            >
               <Image
                 src="https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/hero-main-W2BZehWshgnFmxuU4eaztg.webp"
-                alt="Enterprise Microsoft 365 Framework"
-                width={1200}
-                height={800}
-                className="w-full h-full object-cover rounded-2xl shadow-2xl"
+                alt="Enterprise Microsoft 365 framework dashboard"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 760px"
+                className="object-cover"
                 priority
               />
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-4 md:gap-8 lg:gap-12 mt-12 md:mt-16 lg:mt-20 pt-8 md:pt-12 lg:pt-16 border-t border-border">
-            {stats.map((stat, idx) => (
-              <div key={idx} className="text-center">
-                <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-primary mb-1 md:mb-2">
-                  {stat.number}
-                </div>
-                <p className="text-xs md:text-sm lg:text-base text-muted-foreground">
-                  {stat.label}
-                </p>
-              </div>
-            ))}
+              <div className="absolute inset-0 ring-1 ring-inset ring-border/70 rounded-sm" />
+              <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 via-transparent to-accent/10 pointer-events-none" />
+            </MotionReveal>
           </div>
         </div>
       </section>
 
-      {/* Delivery Flow Section */}
-      <section className="py-12 md:py-20 lg:py-28 xl:py-32 bg-background">
+      {/* ───────────── Stat strip (between hero and delivery flow) ───────────── */}
+      <section className="bg-background">
         <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 lg:mb-20">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 md:mb-4">
-              Delivery Flow
-            </h2>
-            <p className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed">
-              {deliveryNote}
-            </p>
+          <span aria-hidden className="bleed-divider block" />
+          <div className="py-10 md:py-12 wide:py-16">
+            <StatStrip items={stats} tone="hero" />
           </div>
+          <span aria-hidden className="bleed-divider block" />
+        </div>
+      </section>
 
-          {/* Timeline */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-3 lg:gap-4 xl:gap-6">
+      {/* ───────────── Delivery flow ───────────── */}
+      <SectionShell tone="default" decoration="none">
+        <SectionHeader
+          eyebrow="Delivery model"
+          title="Delivery flow"
+          lede={deliveryNote}
+          align="center"
+          size="section"
+          className="mb-12 md:mb-16 wide:mb-20"
+        />
+
+        {/* Timeline: horizontal at lg+, two-column at md, single column on mobile */}
+        <div className="relative">
+          {/* Continuous gradient connector — only at lg+ */}
+          <span
+            aria-hidden
+            className="hidden lg:block absolute top-[2.25rem] left-12 right-12 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"
+          />
+          <div className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 lg:gap-3 wide:gap-5">
             {deliveryStages.map((stage, idx) => (
-              <div key={idx} className="relative">
-                <div className="floating-card p-6 text-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-lg mx-auto mb-3">
-                    {stage.number}
-                  </div>
-                  <p className="font-semibold text-foreground text-sm md:text-base">
-                    {stage.label}
-                  </p>
+              <MotionReveal
+                key={idx}
+                from="up"
+                delay={idx * 70}
+                className="card-elevated p-5 md:p-6 text-center bg-card"
+              >
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-sm bg-gradient-to-br from-primary to-accent text-white text-base font-bold shadow-sm">
+                  {stage.number}
                 </div>
-                {idx < deliveryStages.length - 1 && (
-                  <div className="hidden lg:block absolute top-1/3 -right-3 w-6 h-0.5 bg-gradient-to-r from-primary to-transparent"></div>
-                )}
-              </div>
+                <p className="font-semibold text-foreground text-sm md:text-base">
+                  {stage.label}
+                </p>
+              </MotionReveal>
             ))}
           </div>
         </div>
-      </section>
+      </SectionShell>
 
-      {/* What is ADVANTA365 Section */}
-      <section className="py-12 md:py-20 lg:py-28 xl:py-32 bg-secondary/50">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 xl:gap-20 items-start">
-            {/* Left */}
-            <div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-                {whatIsSection.title}
-              </h2>
-              <h3 className="text-xl md:text-2xl font-semibold text-primary mb-6">
-                {whatIsSection.subtitle}
-              </h3>
-              <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
-                {whatIsSection.description}
-              </p>
+      {/* ───────────── What is ADVANTA365 ───────────── */}
+      <SectionShell tone="muted">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 wide:gap-24 items-start">
+          <MotionReveal from="left" className="space-y-5 md:space-y-6">
+            <span className="eyebrow">The framework</span>
+            <h2 className="h-section text-foreground">{whatIsSection.title}</h2>
+            <h3 className="h-card text-primary">{whatIsSection.subtitle}</h3>
+            <p className="body-lg text-muted-foreground">{whatIsSection.description}</p>
+            <div className="pt-2">
               <Link href="/framework">
                 <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
                   {whatIsSection.cta}
@@ -152,226 +204,189 @@ export default function Home() {
                 </Button>
               </Link>
             </div>
+          </MotionReveal>
 
-            {/* Right - Principles Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 lg:gap-6">
-              {whatIsSection.principles.map((principle, idx) => (
-                <div
-                  key={idx}
-                  className="card-elevated p-6 md:p-8 space-y-3"
-                >
-                  <div className="flex items-start gap-2 md:gap-3">
-                    <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5 text-accent flex-shrink-0 mt-0.5 md:mt-1" />
-                    <h4 className="font-semibold text-sm md:text-base text-foreground">
-                      {principle.title}
-                    </h4>
-                  </div>
-                  <p className="text-xs md:text-sm text-muted-foreground">
-                    {principle.description}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Problems Section */}
-      <section className="py-12 md:py-20 lg:py-28 xl:py-32 bg-background">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-12 md:mb-16 lg:mb-20">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-3 md:mb-4">
-              Why organizations struggle
-            </h2>
-            <p className="text-base md:text-lg lg:text-xl text-muted-foreground leading-relaxed">
-              The familiar problems we hear in every M365 program. Technology adoption fails when organizations focus only on technology. These are the patterns ADVANTA365 is built to solve.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-            {problems.map((problem, idx) => (
-              <div key={idx} className="card-elevated p-6 md:p-8 space-y-3">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-bold">
-                    {String(idx + 1).padStart(2, "0")}
-                  </div>
-                  <h4 className="font-semibold text-foreground text-lg">
-                    {problem.title}
-                  </h4>
-                </div>
-                <p className="text-muted-foreground leading-relaxed">
-                  {problem.description}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link href="/why">
-              <Button variant="outline" className="border-border hover:bg-secondary gap-2">
-                See all nine — and how ADVANTA365 addresses them
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Core Principles Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-secondary/50">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              Core principles
-            </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Seven beliefs that shape every engagement.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {coreprinciples.map((principle, idx) => (
-              <div key={idx} className="card-elevated p-6 md:p-8 space-y-3">
-                <h4 className="font-semibold text-foreground text-lg">
-                  {principle.title}
-                </h4>
-                <p className="text-muted-foreground leading-relaxed">
-                  {principle.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Modules Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-background">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              The ADVANTA modules
-            </h2>
-            <p className="text-lg text-muted-foreground mb-4 leading-relaxed">
-              One framework. Five working modules.
-            </p>
-            <p className="text-muted-foreground leading-relaxed">
-              From governed provisioning to enterprise classification — the modules turn methodology into daily operations.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 mb-8">
-            {modules.map((module, idx) => (
-              <div
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+            {whatIsSection.principles.map((principle, idx) => (
+              <MotionReveal
                 key={idx}
-                className="floating-card p-6 md:p-8 space-y-3 flex flex-col"
+                from="up"
+                delay={idx * 80}
+                className="card-feature p-5 md:p-6 space-y-2"
               >
-                <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold">
-                  {idx + 1}
+                <div className="flex items-start gap-3">
+                  <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                  <h4 className="h-card text-foreground">{principle.title}</h4>
                 </div>
-                <h4 className="font-semibold text-foreground text-sm md:text-base leading-tight">
-                  {module.title}
-                </h4>
-                <p className="text-xs md:text-sm text-muted-foreground leading-relaxed flex-1">
-                  {module.description}
-                </p>
-              </div>
+                <p className="body-base text-muted-foreground pl-8">{principle.description}</p>
+              </MotionReveal>
             ))}
           </div>
-
-          <div className="text-center">
-            <Link href="/governance">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
-                Explore modules
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </div>
         </div>
-      </section>
+      </SectionShell>
 
-      {/* Differentiators Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-secondary/50">
-        <div className="container">
-          <div className="max-w-3xl mx-auto text-center mb-16 md:mb-20">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
-              What makes us different
-            </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              Built specifically for large, complex, regulated organizations.
-            </p>
-          </div>
+      {/* ───────────── Why orgs struggle (problems) ───────────── */}
+      <SectionShell tone="default" decoration="grid">
+        <SectionHeader
+          eyebrow="The problem"
+          title="Why organizations struggle"
+          lede="The familiar problems we hear in every M365 program. Technology adoption fails when organizations focus only on technology — these are the patterns ADVANTA365 is built to solve."
+          align="center"
+          className="mb-12 md:mb-16 wide:mb-20"
+        />
+        <CardGrid
+          items={problemItems}
+          variant="numbered"
+          cols={{ base: 1, md: 2, lg: 3 }}
+          gap="md"
+          stagger={70}
+        />
+        <MotionReveal from="up" className="text-center mt-10 md:mt-14">
+          <Link href="/why">
+            <Button variant="outline" className="border-border bg-background hover:bg-secondary gap-2">
+              See all nine — and how ADVANTA365 addresses them
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
+        </MotionReveal>
+      </SectionShell>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            {differentiators.map((diff, idx) => (
-              <div key={idx} className="card-elevated p-6 md:p-8 space-y-3">
-                <h4 className="font-semibold text-foreground text-lg">
-                  {diff.title}
-                </h4>
-                <p className="text-muted-foreground leading-relaxed">
-                  {diff.description}
-                </p>
-              </div>
-            ))}
-          </div>
+      {/* ───────────── Core principles ───────────── */}
+      <SectionShell tone="muted">
+        <SectionHeader
+          eyebrow="What we believe"
+          title="Core principles"
+          lede="Seven beliefs that shape every engagement."
+          align="center"
+          className="mb-12 md:mb-16 wide:mb-20"
+        />
+        <CardGrid
+          items={principleItems}
+          variant="principle"
+          cols={{ base: 1, md: 2, lg: 3, wide: 4 }}
+          gap="md"
+          stagger={50}
+        />
+      </SectionShell>
 
-          <div className="text-center mt-12">
-            <Link href="/why">
-              <Button variant="outline" className="border-border hover:bg-background gap-2">
-                Why ADVANTA365
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* ───────────── Modules ───────────── */}
+      <SectionShell tone="default">
+        <SectionHeader
+          eyebrow="The modules"
+          title="One framework. Five working modules."
+          lede="From governed provisioning to enterprise classification — the modules turn methodology into daily operations."
+          align="center"
+          className="mb-12 md:mb-16 wide:mb-20"
+        />
+        <CardGrid
+          items={moduleItems}
+          variant="module"
+          cols={{ base: 1, md: 2, lg: 5 }}
+          gap="md"
+          stagger={70}
+        />
+        <MotionReveal from="up" className="text-center mt-10 md:mt-14">
+          <Link href="/governance">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
+              Explore modules
+              <ArrowRight className="w-4 h-4" />
+            </Button>
+          </Link>
+        </MotionReveal>
+      </SectionShell>
 
-      {/* Success Factors Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-background">
-        <div className="container">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-12">
-              Adoption success factors
-            </h2>
-
-            <div className="space-y-4">
-              {adoptionSuccessFactors.map((factor, idx) => (
-                <div
-                  key={idx}
-                  className="flex items-start gap-4 p-4 md:p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-secondary/50 transition-all"
-                >
-                  <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
-                  <p className="text-foreground leading-relaxed">{factor}</p>
-                </div>
-              ))}
+      {/* ───────────── Differentiators (asymmetric: featured + grid) ───────────── */}
+      <SectionShell tone="accent">
+        <SectionHeader
+          eyebrow="What makes us different"
+          title="Built for enterprise complexity"
+          lede="Designed specifically for large, complex, regulated organizations."
+          align="center"
+          className="mb-12 md:mb-16 wide:mb-20"
+        />
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 lg:gap-8">
+          {/* Featured callout card */}
+          <MotionReveal
+            from="up"
+            className="card-callout p-7 md:p-9 wide:p-10 lg:col-span-5 flex flex-col justify-between min-h-[14rem] md:min-h-[18rem] lg:min-h-full"
+          >
+            <div className="relative z-10 space-y-4">
+              <span className="eyebrow [&]:text-primary-foreground/80">Signature differentiator</span>
+              <h3 className="h-section text-primary-foreground">{featuredDiff.title}</h3>
+              <p className="body-lg text-primary-foreground/90 max-w-prose">
+                {featuredDiff.description}
+              </p>
             </div>
-          </div>
-        </div>
-      </section>
+            <div className="relative z-10 pt-6">
+              <Link href="/why">
+                <Button
+                  variant="outline"
+                  className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 gap-2"
+                >
+                  Why ADVANTA365
+                  <ArrowRight className="w-4 h-4" />
+                </Button>
+              </Link>
+            </div>
+          </MotionReveal>
 
-      {/* CTA Section */}
-      <section className="py-16 md:py-24 lg:py-32 bg-gradient-to-r from-primary/10 to-accent/10 border-t border-border">
-        <div className="container text-center">
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Ready to transform your Microsoft 365 program?
-          </h2>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Start a conversation with our team about your organization&apos;s adoption, governance, and enablement needs.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
-                Start a roadmap conversation
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-            <Link href="/contact">
-              <Button size="lg" variant="outline" className="border-border hover:bg-background">
-                Request a readiness review
-              </Button>
-            </Link>
+          {/* Remaining diffs as outlined grid */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+            {restDiffItems.map((d, idx) => (
+              <MotionReveal
+                key={idx}
+                from="up"
+                delay={idx * 60}
+                className="card-outlined p-5 md:p-6 space-y-2"
+              >
+                <h4 className="h-card text-foreground">{d.title}</h4>
+                <p className="body-base text-muted-foreground">{d.description}</p>
+              </MotionReveal>
+            ))}
           </div>
         </div>
-      </section>
+      </SectionShell>
+
+      {/* ───────────── Adoption success factors ───────────── */}
+      <SectionShell tone="default">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          <MotionReveal from="left" className="lg:col-span-4 space-y-4">
+            <span className="eyebrow">When adoption works</span>
+            <h2 className="h-section text-foreground">Adoption success factors</h2>
+            <p className="body-lg text-muted-foreground">
+              The conditions we see in every program that makes Microsoft 365 stick.
+            </p>
+          </MotionReveal>
+
+          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+            {adoptionSuccessFactors.map((factor, idx) => (
+              <MotionReveal
+                key={idx}
+                from="up"
+                delay={idx * 50}
+                className={
+                  "flex items-start gap-4 rounded-sm border border-border/60 bg-card p-4 md:p-5 hover:border-primary/40 transition-colors"
+                }
+              >
+                <span className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-sm bg-primary/10 text-primary text-xs font-bold">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <p className="body-base text-foreground">{factor}</p>
+              </MotionReveal>
+            ))}
+          </div>
+        </div>
+      </SectionShell>
+
+      {/* ───────────── Final CTA ───────────── */}
+      <CTABand
+        eyebrow="Get started"
+        title="Ready to transform your Microsoft 365 program?"
+        lede="Start a conversation with our team about your organization's adoption, governance, and enablement needs."
+        primary={{ label: "Start a roadmap conversation", href: "/contact" }}
+        secondary={{ label: "Request a readiness review", href: "/contact" }}
+        tone="dark"
+      />
     </SiteLayout>
   );
 }

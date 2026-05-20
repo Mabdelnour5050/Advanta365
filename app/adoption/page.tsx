@@ -1,64 +1,87 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import SiteLayout from "@/components/SiteLayout";
+import PageHero from "@/components/sections/PageHero";
+import SectionShell from "@/components/sections/SectionShell";
+import SectionHeader from "@/components/sections/SectionHeader";
+import CardGrid, { type GridItem } from "@/components/sections/CardGrid";
+import CTABand from "@/components/sections/CTABand";
+import MotionReveal from "@/components/MotionReveal";
 import { adoptionSuccessFactors, trainingPrinciples } from "@/lib/content";
-import { ArrowRight, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 export const metadata = { title: "Adoption" };
 
 export default function Adoption() {
+  const principleItems: GridItem[] = trainingPrinciples.map((p) => ({
+    title: p,
+    icon: <CheckCircle2 className="w-5 h-5" />,
+  }));
+
   return (
     <SiteLayout>
-      <section className="py-16 md:py-24 lg:py-32 bg-gradient-to-b from-secondary via-background to-background">
-        <div className="container">
-          <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6">
-              Adoption &amp; Enablement
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8">
-              Structured, role-based adoption that drives real behavioral change and sustained engagement.
+      <PageHero
+        eyebrow="Adoption & enablement"
+        title="Adoption that actually sticks"
+        lede="Structured, role-based adoption that drives real behavioral change and sustained engagement — long after launch day."
+        cta={{ label: "Start your adoption journey", href: "/contact" }}
+      />
+
+      {/* Training principles */}
+      <SectionShell tone="default" decoration="grid">
+        <SectionHeader
+          eyebrow="How we train"
+          title="Training principles"
+          lede="Six principles that shape every learning experience we design."
+          align="center"
+          className="mb-12 md:mb-16 wide:mb-20"
+        />
+        <CardGrid
+          items={principleItems}
+          variant="outlined"
+          cols={{ base: 1, md: 2, lg: 3 }}
+          stagger={60}
+          gap="md"
+        />
+      </SectionShell>
+
+      {/* Success factors — alternating row backgrounds */}
+      <SectionShell tone="muted">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+          <MotionReveal from="left" className="lg:col-span-4 space-y-4 lg:sticky lg:top-28">
+            <span className="eyebrow">Success factors</span>
+            <h2 className="h-section text-foreground">When adoption works</h2>
+            <p className="body-lg text-muted-foreground">
+              The conditions we see in every program that makes Microsoft 365 stick.
             </p>
-            <Link href="/contact">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
-                Start your adoption journey
-                <ArrowRight className="w-4 h-4" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 lg:py-32 bg-background">
-        <div className="container">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-            Training Principles
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {trainingPrinciples.map((principle, idx) => (
-              <div key={idx} className="card-elevated p-6 flex items-start gap-4">
-                <CheckCircle2 className="w-6 h-6 text-accent flex-shrink-0 mt-1" />
-                <p className="font-semibold text-foreground">{principle}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-16 md:py-24 lg:py-32 bg-secondary/50">
-        <div className="container">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-            Success Factors
-          </h2>
-          <div className="space-y-4 max-w-3xl">
+          </MotionReveal>
+          <div className="lg:col-span-8 space-y-3 md:space-y-4">
             {adoptionSuccessFactors.map((factor, idx) => (
-              <div key={idx} className="flex items-start gap-4 p-6 rounded-lg border border-border hover:border-primary/50 hover:bg-background transition-all">
-                <CheckCircle2 className="w-5 h-5 text-accent flex-shrink-0 mt-1" />
-                <p className="text-foreground">{factor}</p>
-              </div>
+              <MotionReveal
+                key={idx}
+                from="up"
+                delay={idx * 60}
+                className={
+                  "flex items-start gap-4 rounded-sm border border-border/60 p-5 md:p-6 transition-colors " +
+                  (idx % 2 === 0 ? "bg-card" : "bg-background/60")
+                }
+              >
+                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-sm bg-primary/10 text-primary text-sm font-bold">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <p className="body-base text-foreground pt-0.5">{factor}</p>
+              </MotionReveal>
             ))}
           </div>
         </div>
-      </section>
+      </SectionShell>
+
+      <CTABand
+        eyebrow="Get in touch"
+        title="Build adoption that scales with you."
+        lede="Let's talk about your organization's adoption and enablement needs."
+        primary={{ label: "Talk to us", href: "/contact" }}
+        secondary={{ label: "Learn the framework", href: "/framework" }}
+        tone="dark"
+      />
     </SiteLayout>
   );
 }
