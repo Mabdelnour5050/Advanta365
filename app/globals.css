@@ -1,0 +1,431 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* Modern Enterprise Minimalism Design System */
+  
+  /* Primary Teal - Deep, trustworthy, professional */
+  --primary: #0D7377;
+  --primary-foreground: #F5F5F0;
+  
+  /* Secondary Emerald - Accent for CTAs and success states */
+  --accent: #14B8A6;
+  --accent-foreground: #F5F5F0;
+  
+  /* Sidebar colors */
+  --sidebar-primary: #0D7377;
+  --sidebar-primary-foreground: #F5F5F0;
+  
+  /* Chart colors - Teal gradient */
+  --chart-1: #06B6D4;
+  --chart-2: #14B8A6;
+  --chart-3: #0D7377;
+  --chart-4: #0A5F6F;
+  --chart-5: #084E5E;
+  
+  /* Radius - Minimal, sharp edges for sleek aesthetic */
+  --radius: 0.25rem;
+  
+  /* Light theme - Clean, minimal, professional */
+  --background: #FAFAF8;
+  --foreground: #1F2937;
+  --card: #FFFFFF;
+  --card-foreground: #1F2937;
+  --popover: #FFFFFF;
+  --popover-foreground: #1F2937;
+  
+  /* Secondary - Warm cream for subtle backgrounds */
+  --secondary: #F5F5F0;
+  --secondary-foreground: #4B5563;
+  
+  /* Muted - Light gray for disabled/secondary states */
+  --muted: #E5E7EB;
+  --muted-foreground: #6B7280;
+  
+  /* Destructive - Red for errors */
+  --destructive: #DC2626;
+  --destructive-foreground: #FAFAF8;
+  
+  /* Border and input colors */
+  --border: #E5E7EB;
+  --input: #F3F4F6;
+  --ring: #0D7377;
+  
+  /* Sidebar colors */
+  --sidebar: #FAFAF8;
+  --sidebar-foreground: #1F2937;
+  --sidebar-accent: #F5F5F0;
+  --sidebar-accent-foreground: #0D7377;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #0D7377;
+}
+
+.dark {
+  /* Dark theme - Professional dark mode */
+  --primary: #14B8A6;
+  --primary-foreground: #0F172A;
+  --sidebar-primary: #14B8A6;
+  --sidebar-primary-foreground: #0F172A;
+  
+  --background: #0F172A;
+  --foreground: #E5E7EB;
+  --card: #1E293B;
+  --card-foreground: #E5E7EB;
+  --popover: #1E293B;
+  --popover-foreground: #E5E7EB;
+  
+  --secondary: #1E293B;
+  --secondary-foreground: #CBD5E1;
+  
+  --muted: #334155;
+  --muted-foreground: #94A3B8;
+  
+  --accent: #14B8A6;
+  --accent-foreground: #0F172A;
+  
+  --destructive: #EF4444;
+  --destructive-foreground: #0F172A;
+  
+  --border: #334155;
+  --input: #1E293B;
+  --ring: #14B8A6;
+  
+  --chart-1: #06B6D4;
+  --chart-2: #14B8A6;
+  --chart-3: #0D7377;
+  --chart-4: #0A5F6F;
+  --chart-5: #084E5E;
+  
+  --sidebar: #1E293B;
+  --sidebar-foreground: #E5E7EB;
+  --sidebar-accent: #334155;
+  --sidebar-accent-foreground: #14B8A6;
+  --sidebar-border: #334155;
+  --sidebar-ring: #14B8A6;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  /**
+   * Custom container utility that centers content and adds responsive padding.
+   * Modern Enterprise Minimalism: Generous spacing for breathing room.
+   */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  /* Mobile: 375px - 640px */
+  @media (min-width: 375px) {
+    .container {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+    }
+  }
+
+  /* Tablet: 640px - 1024px */
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  /* Desktop: 1024px - 1440px */
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+
+  /* Large Desktop: 1440px - 1920px */
+  @media (min-width: 1440px) {
+    .container {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+      max-width: 1400px;
+    }
+  }
+
+  /* Ultra-wide: 1920px+ */
+  @media (min-width: 1920px) {
+    .container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+      max-width: 1600px;
+    }
+  }
+
+  /* 4K and beyond: 2560px+ */
+  @media (min-width: 2560px) {
+    .container {
+      padding-left: 4rem;
+      padding-right: 4rem;
+      max-width: 1800px;
+    }
+  }
+
+  /* Sleek Enterprise Design - Sharp, minimal aesthetic */
+  .card-elevated {
+    @apply bg-card text-card-foreground rounded-sm shadow-sm hover:shadow-md transition-shadow duration-300 border border-border/50;
+  }
+
+  .card-subtle {
+    @apply bg-secondary text-foreground rounded-sm border border-border;
+  }
+
+  /* Sleek floating effect - minimal lift */
+  .floating-card {
+    @apply bg-card text-card-foreground rounded-sm shadow-sm hover:shadow-md hover:translate-y-[-2px] transition-all duration-300 border border-border/50;
+  }
+
+  /* Sharp underline for headings */
+  .heading-gradient {
+    @apply relative inline-block;
+  }
+
+  .heading-gradient::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #0D7377 0%, #14B8A6 100%);
+    border-radius: 0;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  button, a, input, select, textarea {
+    @apply transition-all duration-200;
+  }
+
+  /* Button active state - subtle compression */
+  button:active:not(:disabled) {
+    @apply scale-[0.97];
+  }
+
+  /* Prevent text overflow and ensure readability */
+  h1, h2, h3, h4, h5, h6 {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    letter-spacing: -0.02em;
+  }
+
+  /* Mobile typography optimization */
+  @media (max-width: 640px) {
+    h1 { font-size: 1.875rem; line-height: 1.2; }
+    h2 { font-size: 1.5rem; line-height: 1.3; }
+    h3 { font-size: 1.25rem; line-height: 1.35; }
+    p { font-size: 1rem; line-height: 1.65; }
+  }
+
+  /* Tablet typography optimization */
+  @media (min-width: 640px) and (max-width: 1024px) {
+    h1 { font-size: 2.5rem; line-height: 1.2; }
+    h2 { font-size: 2rem; line-height: 1.3; }
+    h3 { font-size: 1.5rem; line-height: 1.35; }
+    p { font-size: 1.0625rem; line-height: 1.65; }
+  }
+
+  /* Desktop typography optimization */
+  @media (min-width: 1024px) {
+    h1 { font-size: 3rem; line-height: 1.2; }
+    h2 { font-size: 2.25rem; line-height: 1.3; }
+    h3 { font-size: 1.75rem; line-height: 1.35; }
+    p { font-size: 1.125rem; line-height: 1.65; }
+  }
+
+  /* Large desktop typography optimization */
+  @media (min-width: 1440px) {
+    h1 { font-size: 3.5rem; line-height: 1.15; }
+    h2 { font-size: 2.5rem; line-height: 1.25; }
+    h3 { font-size: 2rem; line-height: 1.3; }
+    p { font-size: 1.1875rem; line-height: 1.65; }
+  }
+
+  /* Ultra-wide display optimization */
+  @media (min-width: 1920px) {
+    h1 { font-size: 4rem; line-height: 1.15; }
+    h2 { font-size: 2.75rem; line-height: 1.25; }
+    h3 { font-size: 2.25rem; line-height: 1.3; }
+    p { font-size: 1.25rem; line-height: 1.65; }
+  }
+
+  /* 4K display optimization */
+  @media (min-width: 2560px) {
+    h1 { font-size: 4.5rem; line-height: 1.1; }
+    h2 { font-size: 3rem; line-height: 1.2; }
+    h3 { font-size: 2.5rem; line-height: 1.25; }
+    p { font-size: 1.375rem; line-height: 1.7; }
+  }
+
+  /* Ensure images don't overflow their containers */
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  /* Fix grid gaps on mobile to prevent cramping */
+  @media (max-width: 640px) {
+    .grid {
+      gap: 1rem;
+    }
+  }
+
+  /* Ensure buttons have proper touch targets */
+  button, [role="button"], a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improve form input spacing */
+  input, textarea, select {
+    @apply p-3 rounded-lg border border-border focus:ring-2 focus:ring-primary focus:border-transparent;
+  }
+
+  /* Prevent text selection on UI elements */
+  button, [role="button"], .no-select {
+    user-select: none;
+  }
+}
+
+/* Typography - Geist for display, Inter for body (loaded via next/font in app/layout.tsx) */
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), 'Geist', system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+
+  body, p, span, a, button {
+    font-family: var(--font-sans), 'Inter', system-ui, sans-serif;
+    font-weight: 400;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold leading-tight;
+    line-height: 1.2;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl font-bold leading-tight;
+    line-height: 1.25;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl font-semibold leading-snug;
+    line-height: 1.3;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl font-semibold leading-snug;
+    line-height: 1.35;
+  }
+
+  h5, h6 {
+    @apply font-semibold leading-snug;
+    line-height: 1.4;
+  }
+
+  p {
+    @apply text-base md:text-lg leading-relaxed;
+    line-height: 1.65;
+  }
+
+  /* Improved readability for all text */
+  body {
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Ensure sufficient contrast for all text */
+  a {
+    @apply text-primary hover:text-primary/80 transition-colors;
+  }
+
+  /* Improve button text readability */
+  button, [role="button"] {
+    @apply font-medium;
+  }
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection styling */
+::selection {
+  @apply bg-primary text-primary-foreground;
+}
