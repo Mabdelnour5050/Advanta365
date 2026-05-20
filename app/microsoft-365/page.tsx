@@ -74,7 +74,7 @@ export default function Microsoft365() {
           title="Three pillars of the modern digital workplace"
           lede="Each platform has a distinct role. ADVANTA365 makes them work together."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 wide:gap-10">
           {microsoft365Focus.map((platform, idx) => (

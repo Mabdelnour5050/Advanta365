@@ -101,7 +101,7 @@ export default function Framework() {
           title="Seven-stage delivery model"
           lede="Each stage is repeatable, role-aware, and embeds governance and adoption from day one."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <div className="relative">
           <span
@@ -125,7 +125,7 @@ export default function Framework() {
           title="Five core modules"
           lede="The working machinery of ADVANTA365 — five connected modules that turn methodology into daily operations."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <div className="space-y-5 md:space-y-6 lg:space-y-8">
           {modules.map((module, idx) => {

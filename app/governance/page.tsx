@@ -134,12 +134,12 @@ export default function Governance() {
           title="Our modules"
           lede="Five working modules that operationalize governance across Microsoft 365."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <CardGrid
           items={moduleItems}
           variant="module"
-          cols={{ base: 1, md: 2, lg: 5 }}
+          cols={{ base: 1, md: 2, lg: 3, wide: 5 }}
           stagger={70}
           gap="md"
         />

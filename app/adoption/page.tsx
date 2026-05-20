@@ -94,7 +94,7 @@ export default function Adoption() {
           title="Training principles"
           lede="Six principles that shape every learning experience we design."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <CardGrid
           items={principleItems}

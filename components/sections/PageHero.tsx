@@ -45,10 +45,10 @@ export default function PageHero({
         style={{ maskImage: "radial-gradient(ellipse at 50% 30%, black 40%, transparent 75%)" }}
       />
 
-      <div className="container relative z-10 section-y">
+      <div className="container relative z-10 pt-6 md:pt-8 wide:pt-10 pb-10 md:pb-14 wide:pb-16">
         <div
           className={cn(
-            "grid gap-10 md:gap-12 lg:gap-16 wide:gap-20 items-center",
+            "grid gap-8 md:gap-12 lg:gap-16 wide:gap-20 items-center",
             visual || numberStrip ? "grid-cols-1 lg:grid-cols-12" : "grid-cols-1",
           )}
         >

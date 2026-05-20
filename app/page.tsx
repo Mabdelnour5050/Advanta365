@@ -134,8 +134,8 @@ export default function Home() {
           }}
         />
 
-        <div className="container relative z-10 section-y-loose">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 lg:gap-16 wide:gap-20 items-center min-h-[clamp(28rem,68vh,46rem)]">
+        <div className="container relative z-10 pb-12 md:pb-16 wide:pb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 lg:gap-16 wide:gap-20 items-center min-h-[clamp(26rem,62vh,40rem)]">
             {/* Left content */}
             <MotionReveal from="up" className="space-y-6 md:space-y-7">
               <span className="inline-flex items-center gap-2 rounded-sm bg-secondary/80 border border-border px-3 py-1.5 text-xs md:text-sm font-medium text-foreground">
@@ -202,7 +202,7 @@ export default function Home() {
       <section className="bg-background">
         <div className="container">
           <span aria-hidden className="bleed-divider block" />
-          <div className="py-10 md:py-12 wide:py-16">
+          <div className="py-6 md:py-8 wide:py-10">
             <StatStrip items={stats} tone="hero" />
           </div>
           <span aria-hidden className="bleed-divider block" />
@@ -217,7 +217,7 @@ export default function Home() {
           lede={deliveryNote}
           align="center"
           size="section"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
 
         {/* Timeline: horizontal at lg+, two-column at md, single column on mobile */}
@@ -291,7 +291,7 @@ export default function Home() {
           title="Why organizations struggle"
           lede="The familiar problems we hear in every M365 program. Technology adoption fails when organizations focus only on technology — these are the patterns ADVANTA365 is built to solve."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <CardGrid
           items={problemItems}
@@ -317,7 +317,7 @@ export default function Home() {
           title="Core principles"
           lede="Seven beliefs that shape every engagement."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <CardGrid
           items={principleItems}
@@ -335,12 +335,12 @@ export default function Home() {
           title="One framework. Five working modules."
           lede="From governed provisioning to enterprise classification — the modules turn methodology into daily operations."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <CardGrid
           items={moduleItems}
           variant="module"
-          cols={{ base: 1, md: 2, lg: 5 }}
+          cols={{ base: 1, md: 2, lg: 3, wide: 5 }}
           gap="md"
           stagger={70}
         />
@@ -361,7 +361,7 @@ export default function Home() {
           title="Built for enterprise complexity"
           lede="Designed specifically for large, complex, regulated organizations."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 lg:gap-8">
           {/* Featured callout card */}

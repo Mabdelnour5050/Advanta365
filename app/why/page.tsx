@@ -101,7 +101,7 @@ export default function Why() {
           title="Problems we solve"
           lede="The familiar patterns we see in every M365 program. ADVANTA365 is built to address them — together, not piece by piece."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <CardGrid
           items={problemItems}
@@ -119,7 +119,7 @@ export default function Why() {
           title="What makes ADVANTA365 different"
           lede="Most solutions tackle one piece. We bring governance, adoption, and sustainment into one operating model."
           align="center"
-          className="mb-12 md:mb-16 wide:mb-20"
+          className="mb-8 md:mb-10 wide:mb-12"
         />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 lg:gap-8">
           <MotionReveal
