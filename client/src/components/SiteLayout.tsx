@@ -164,15 +164,11 @@ export default function SiteLayout({ children }: SiteLayoutProps) {
               © 2026 ADVANTA365. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Privacy
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Terms
-              </a>
-              <a href="#" className="text-sm text-muted-foreground hover:text-primary transition-colors">
-                Contact
-              </a>
+              <Link href="/contact">
+                <a className="text-sm text-muted-foreground hover:text-primary transition-colors">
+                  Contact
+                </a>
+              </Link>
             </div>
           </div>
         </div>
