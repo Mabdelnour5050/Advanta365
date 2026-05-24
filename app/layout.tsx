@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Geist } from "next/font/google";
+import { Bricolage_Grotesque, Spline_Sans, Spline_Sans_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import Providers from "./providers";
@@ -15,16 +15,25 @@ import {
   websiteSchema,
 } from "@/lib/seo";
 
-const inter = Inter({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-bricolage",
   display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-const geist = Geist({
+const spline = Spline_Sans({
   subsets: ["latin"],
-  variable: "--font-display",
+  variable: "--font-spline",
   display: "swap",
+  weight: ["400", "500", "600", "700"],
+});
+
+const splineMono = Spline_Sans_Mono({
+  subsets: ["latin"],
+  variable: "--font-spline-mono",
+  display: "swap",
+  weight: ["400", "500"],
 });
 
 const ROOT_DESCRIPTION =
@@ -79,19 +88,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      {
-        url: "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-VjzaoUzzqBZw6AXtUMMWaR.webp",
-        type: "image/webp",
-        sizes: "32x32",
-      },
-      {
-        url: "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-H7Z8tUbL6UHeFwN2z6g6tN.png",
-        type: "image/png",
-        sizes: "32x32",
-      },
+      { url: "/favicon.svg", type: "image/svg+xml" },
     ],
-    apple:
-      "https://d2xsxph8kpxj0f.cloudfront.net/310519663677163857/g8wGKX5v4ST4YMyg6HYL47/favicon-H7Z8tUbL6UHeFwN2z6g6tN.png",
+    apple: "/favicon.svg",
   },
   manifest: "/manifest.json",
   formatDetection: {
@@ -102,10 +101,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#FAFAF8" },
-    { media: "(prefers-color-scheme: dark)", color: "#0F172A" },
-  ],
+  themeColor: "#f3efe7",
   colorScheme: "light",
   width: "device-width",
   initialScale: 1,
@@ -125,13 +121,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${geist.variable}`}
+      className={`${bricolage.variable} ${spline.variable} ${splineMono.variable}`}
       suppressHydrationWarning
     >
-      <head>
-        <link rel="preconnect" href="https://d2xsxph8kpxj0f.cloudfront.net" crossOrigin="" />
-        <link rel="dns-prefetch" href="https://d2xsxph8kpxj0f.cloudfront.net" />
-      </head>
       <body className="font-sans antialiased" style={{ margin: 0, padding: 0 }}>
         <Providers>{children}</Providers>
         <Script

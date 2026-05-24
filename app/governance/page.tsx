@@ -31,20 +31,11 @@ export const metadata = buildMetadata({
   ],
 });
 
-const moduleAccents = [
-  "bg-gradient-to-br from-[#06B6D4] to-[#0D7377]",
-  "bg-gradient-to-br from-[#14B8A6] to-[#0A5F6F]",
-  "bg-gradient-to-br from-[#0D7377] to-[#084E5E]",
-  "bg-gradient-to-br from-[#0A5F6F] to-[#06B6D4]",
-  "bg-gradient-to-br from-[#14B8A6] to-[#06B6D4]",
-];
-
 export default function Governance() {
   const moduleItems: GridItem[] = modules.map((m, idx) => ({
     title: m.title,
     description: m.description,
-    number: idx + 1,
-    accent: moduleAccents[idx],
+    number: `M0${idx + 1}`,
   }));
 
   const governanceGraph = {
@@ -84,45 +75,48 @@ export default function Governance() {
         dangerouslySetInnerHTML={{ __html: jsonLd(governanceGraph) }}
       />
       <PageHero
-        eyebrow="By design"
+        label="By design"
         title="Governance by design"
-        lede="Governance embedded into provisioning, templates, and onboarding — not as an afterthought, not as a bolt-on policy."
+        lede="Governance embedded into provisioning, templates, and onboarding. Not an afterthought, not a bolt-on policy."
         cta={{ label: "Get started", href: "/contact" }}
       />
 
-      {/* Philosophy — asymmetric two-column with oversized 01 */}
+      {/* Philosophy */}
       <SectionShell tone="default">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 lg:gap-16 items-start">
-          <MotionReveal from="left" className="lg:col-span-7 space-y-5 md:space-y-6">
-            <span className="eyebrow">Philosophy</span>
-            <h2 className="h-section text-foreground">Built in, not bolted on</h2>
-            <p className="body-lg text-muted-foreground">
-              Most M365 programs treat governance as a policy document and adoption as a training plan. ADVANTA365
-              treats them as one operating model. Governance is embedded into the provisioning experience, the
-              templates business areas use, and the onboarding journeys for site owners and end users.
+        <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-12 lg:gap-16">
+          <MotionReveal from="left" className="lg:col-span-7">
+            <div className="mb-5 flex items-center gap-4 border-t border-rule-strong pt-3">
+              <span className="figure-index text-sm">01</span>
+              <span className="mono-label">Philosophy</span>
+            </div>
+            <h2 className="h-section text-ink">Built in, not bolted on</h2>
+            <p className="body-lg mt-5">
+              Most M365 programs treat governance as a policy document and adoption as a training
+              plan. ADVANTA365 treats them as one operating model. Governance is embedded into the
+              provisioning experience, the templates business areas use, and the onboarding journeys
+              for site owners and end users.
             </p>
-            <p className="body-base text-muted-foreground">
-              The result: governance feels practical, not bureaucratic — and it scales because it&apos;s where the
-              work happens, not where it&apos;s reviewed.
+            <p className="body-base mt-4 text-ink-2">
+              The result: governance feels practical, not bureaucratic, and it scales because it is
+              where the work happens, not where it is reviewed.
             </p>
           </MotionReveal>
+
           <MotionReveal
             from="right"
             delay={120}
-            className="lg:col-span-5 relative card-callout p-8 md:p-10 wide:p-12 min-h-[16rem] flex items-center"
+            className="ink-plate relative flex min-h-[18rem] items-end overflow-hidden p-8 md:p-10 lg:col-span-5"
           >
-            <div className="relative z-10 space-y-3">
-              <span className="font-mono text-primary-foreground/60 text-sm tracking-wider">01</span>
-              <p className="h-section text-primary-foreground">
-                Governance is embedded at every stage — by design.
-              </p>
-            </div>
             <span
               aria-hidden
-              className="absolute right-4 bottom-2 text-[10rem] md:text-[14rem] wide:text-[18rem] leading-none font-bold text-primary-foreground/10 select-none"
+              className="figure-index pointer-events-none absolute -right-2 -top-6 select-none text-[12rem] leading-none opacity-[0.12] md:text-[16rem]"
+              style={{ color: "var(--paper)" }}
             >
               01
             </span>
+            <p className="relative z-10 font-display text-2xl font-semibold leading-snug text-[var(--paper)] md:text-3xl">
+              Governance is embedded at every stage, by design.
+            </p>
           </MotionReveal>
         </div>
       </SectionShell>
@@ -130,23 +124,23 @@ export default function Governance() {
       {/* Modules */}
       <SectionShell tone="muted">
         <SectionHeader
-          eyebrow="Governed modules"
-          title="Our modules"
-          lede="Five working modules that operationalize governance across Microsoft 365."
-          align="center"
-          className="mb-8 md:mb-10 wide:mb-12"
+          index="02"
+          label="Governed modules"
+          title="Five working modules"
+          lede="The modules that operationalize governance across Microsoft 365."
+          className="mb-10 md:mb-12"
         />
         <CardGrid
           items={moduleItems}
-          variant="module"
-          cols={{ base: 1, md: 2, lg: 3, wide: 5 }}
+          variant="panel"
+          cols={{ base: 1, md: 2, lg: 3 }}
           stagger={70}
           gap="md"
         />
       </SectionShell>
 
       <CTABand
-        eyebrow="Start the conversation"
+        label="Start the conversation"
         title="Make governance practical at enterprise scale."
         lede="Talk to us about embedding governance into your Microsoft 365 program."
         primary={{ label: "Talk to us", href: "/contact" }}

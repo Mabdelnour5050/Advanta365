@@ -88,73 +88,71 @@ export default function Why() {
         dangerouslySetInnerHTML={{ __html: jsonLd(whyGraph) }}
       />
       <PageHero
-        eyebrow="Why ADVANTA365"
+        label="Why ADVANTA365"
         title="Built for enterprise complexity"
-        lede="Designed specifically for large, complex, regulated organizations. A framework that combines governance and adoption — and keeps them working after launch."
+        lede="Designed specifically for large, complex, regulated organizations. A framework that combines governance and adoption, and keeps them working after launch."
         cta={{ label: "Start a conversation", href: "/contact" }}
       />
 
       {/* Problems */}
       <SectionShell tone="default" decoration="grid">
         <SectionHeader
-          eyebrow="The problem"
-          title="Problems we solve"
-          lede="The familiar patterns we see in every M365 program. ADVANTA365 is built to address them — together, not piece by piece."
-          align="center"
-          className="mb-8 md:mb-10 wide:mb-12"
+          index="01"
+          label="The problem"
+          title="Nine problems we solve"
+          lede="The familiar patterns we see in every M365 program. ADVANTA365 is built to address them together, not piece by piece."
+          className="mb-10 md:mb-12"
         />
-        <CardGrid
-          items={problemItems}
-          variant="numbered"
-          cols={{ base: 1, md: 2, lg: 3 }}
-          stagger={50}
-          gap="md"
-        />
+        <CardGrid items={problemItems} variant="ledger" stagger={45} />
       </SectionShell>
 
-      {/* Differentiators — featured + grid */}
-      <SectionShell tone="accent">
+      {/* Differentiators */}
+      <SectionShell tone="muted">
         <SectionHeader
-          eyebrow="What's different"
+          index="02"
+          label="What's different"
           title="What makes ADVANTA365 different"
           lede="Most solutions tackle one piece. We bring governance, adoption, and sustainment into one operating model."
-          align="center"
-          className="mb-8 md:mb-10 wide:mb-12"
+          className="mb-10 md:mb-12"
         />
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:gap-8">
           <MotionReveal
             from="up"
-            className="card-callout p-7 md:p-9 wide:p-10 lg:col-span-5 flex flex-col justify-between min-h-[16rem] lg:min-h-full"
+            className="ink-plate flex flex-col justify-between gap-8 p-8 md:p-10 lg:col-span-5"
           >
-            <div className="relative z-10 space-y-4">
-              <span className="eyebrow [&]:text-primary-foreground/80">Signature differentiator</span>
-              <h3 className="h-section text-primary-foreground">{featuredDiff.title}</h3>
-              <p className="body-lg text-primary-foreground/90 max-w-prose">
+            <div>
+              <div className="mb-5 flex items-center gap-3 border-t border-[color-mix(in_oklab,white_24%,transparent)] pt-3">
+                <span aria-hidden className="h-2 w-2 bg-primary" />
+                <span className="mono-label text-[color-mix(in_oklab,white_70%,transparent)]">
+                  Signature differentiator
+                </span>
+              </div>
+              <h3 className="h-section text-[var(--paper)]">{featuredDiff.title}</h3>
+              <p className="body-lg mt-4 text-[color-mix(in_oklab,white_82%,transparent)]">
                 {featuredDiff.description}
               </p>
             </div>
-            <div className="relative z-10 pt-6">
-              <Link href="/contact">
-                <Button
-                  variant="outline"
-                  className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 gap-2"
-                >
-                  Talk to us
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
+            <Link href="/contact">
+              <Button
+                variant="outline"
+                className="gap-2 border-[color-mix(in_oklab,white_45%,transparent)] text-[var(--paper)] hover:bg-[var(--paper)] hover:text-ink"
+              >
+                Talk to us
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </MotionReveal>
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:col-span-7">
             {restDiffItems.map((d, idx) => (
               <MotionReveal
                 key={idx}
                 from="up"
                 delay={idx * 60}
-                className="card-outlined p-5 md:p-6 space-y-2"
+                className="draft-panel-hover bg-background p-6"
               >
-                <h4 className="h-card text-foreground">{d.title}</h4>
-                <p className="body-base text-muted-foreground">{d.description}</p>
+                <h4 className="h-card text-ink">{d.title}</h4>
+                <p className="body-base mt-2 text-ink-2">{d.description}</p>
               </MotionReveal>
             ))}
           </div>
@@ -162,7 +160,7 @@ export default function Why() {
       </SectionShell>
 
       <CTABand
-        eyebrow="Get started"
+        label="Get started"
         title="Ready for an M365 program that actually works?"
         lede="Talk to our team about your organization's adoption and governance challenges."
         primary={{ label: "Start a conversation", href: "/contact" }}

@@ -6,7 +6,7 @@ import MotionReveal from "@/components/MotionReveal";
 import type { ReactNode } from "react";
 
 interface CTABandProps {
-  eyebrow?: string;
+  label?: string;
   title: ReactNode;
   lede?: ReactNode;
   primary: { label: string; href: string };
@@ -16,7 +16,7 @@ interface CTABandProps {
 }
 
 export default function CTABand({
-  eyebrow,
+  label,
   title,
   lede,
   primary,
@@ -28,80 +28,67 @@ export default function CTABand({
   return (
     <section
       className={cn(
-        "relative overflow-hidden section-y",
-        isDark
-          ? "bg-primary text-primary-foreground"
-          : "bg-gradient-to-br from-primary/10 via-background to-accent/10 text-foreground border-y border-border",
+        "section-y",
+        isDark ? "bg-ink text-[var(--paper)]" : "border-y border-rule-strong bg-secondary text-foreground",
         className,
       )}
     >
-      {isDark ? (
-        <div aria-hidden className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-32 -right-24 w-[36rem] h-[36rem] rounded-full bg-accent/20 blur-3xl" />
-          <div className="absolute -bottom-32 -left-24 w-[36rem] h-[36rem] rounded-full bg-white/5 blur-3xl" />
-        </div>
-      ) : null}
-
-      <div className="container relative z-10">
+      <div className="container">
         <MotionReveal
           from="up"
-          className="flex flex-col items-start gap-5 md:gap-6 lg:flex-row lg:items-center lg:justify-between lg:gap-10"
+          className="flex flex-col items-start gap-8 lg:flex-row lg:items-end lg:justify-between lg:gap-12"
         >
-          <div className="max-w-3xl space-y-3 md:space-y-4">
-            {eyebrow ? (
-              <span
+          <div className="max-w-2xl">
+            {label && (
+              <div
                 className={cn(
-                  "eyebrow",
-                  isDark ? "[&]:text-primary-foreground/70" : "[&]:text-primary",
+                  "mb-5 flex items-center gap-4 border-t pt-3",
+                  isDark ? "border-[color-mix(in_oklab,white_24%,transparent)]" : "border-rule-strong",
                 )}
               >
-                {eyebrow}
-              </span>
-            ) : null}
-            <h2 className={cn("h-section", isDark ? "text-primary-foreground" : "text-foreground")}>
-              {title}
-            </h2>
-            {lede ? (
+                <span aria-hidden className="h-2 w-2 bg-primary" />
+                <span
+                  className={cn("mono-label", isDark && "text-[color-mix(in_oklab,white_70%,transparent)]")}
+                >
+                  {label}
+                </span>
+              </div>
+            )}
+            <h2 className={cn("h-section", isDark ? "text-[var(--paper)]" : "text-ink")}>{title}</h2>
+            {lede && (
               <p
                 className={cn(
-                  "body-lg",
-                  isDark ? "text-primary-foreground/85" : "text-muted-foreground",
+                  "body-lg mt-5",
+                  isDark ? "text-[color-mix(in_oklab,white_82%,transparent)]" : "",
                 )}
               >
                 {lede}
               </p>
-            ) : null}
+            )}
           </div>
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 lg:flex-shrink-0">
+
+          <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto lg:flex-shrink-0">
             <Link href={primary.href}>
-              <Button
-                size="lg"
-                className={cn(
-                  "gap-2",
-                  isDark
-                    ? "bg-primary-foreground text-primary hover:bg-primary-foreground/90"
-                    : "bg-primary hover:bg-primary/90 text-primary-foreground",
-                )}
-              >
+              <Button size="lg" className="w-full gap-2 sm:w-auto">
                 {primary.label}
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            {secondary ? (
+            {secondary && (
               <Link href={secondary.href}>
                 <Button
                   size="lg"
                   variant="outline"
                   className={cn(
-                    isDark
-                      ? "border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10"
-                      : "border-border hover:bg-secondary",
+                    "w-full sm:w-auto",
+                    isDark &&
+                      "border-[color-mix(in_oklab,white_45%,transparent)] text-[var(--paper)] hover:bg-[var(--paper)] hover:text-ink",
                   )}
                 >
                   {secondary.label}
                 </Button>
               </Link>
-            ) : null}
+            )}
           </div>
         </MotionReveal>
       </div>

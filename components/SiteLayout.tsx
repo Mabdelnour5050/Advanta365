@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { navItems } from "@/lib/content";
@@ -9,138 +10,189 @@ import { cn } from "@/lib/utils";
 
 interface SiteLayoutProps {
   children: React.ReactNode;
-  /**
-   * When true, the header renders transparent over the page hero until the user scrolls.
-   * Set to false on pages where the hero starts well below the header (e.g. contact form).
-   */
-  transparentHeader?: boolean;
 }
 
-export default function SiteLayout({ children, transparentHeader = true }: SiteLayoutProps) {
+function Wordmark({ className }: { className?: string }) {
+  return (
+    <Link
+      href="/"
+      className={cn("group inline-flex items-center gap-2.5", className)}
+      aria-label="ADVANTA365 home"
+    >
+      <span
+        aria-hidden
+        className="relative grid h-8 w-8 place-items-center border border-ink bg-paper-panel md:h-9 md:w-9"
+        style={{ borderRadius: "2px" }}
+      >
+        <span className="font-display text-base font-bold leading-none text-ink md:text-lg">A</span>
+        <span className="absolute inset-x-1 bottom-1.5 h-[2px] bg-primary" />
+      </span>
+      <span className="font-display text-lg font-bold tracking-tight md:text-xl">
+        <span className="text-ink">ADVANTA</span>
+        <span className="text-primary">365</span>
+      </span>
+    </Link>
+  );
+}
+
+export default function SiteLayout({ children }: SiteLayoutProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(!transparentHeader);
+  const pathname = usePathname();
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const toggleRef = useRef<HTMLButtonElement | null>(null);
 
-  // Scroll listener for header transparency
-  useEffect(() => {
-    if (!transparentHeader) {
-      setScrolled(true);
-      return;
-    }
-    const onScroll = () => setScrolled(window.scrollY > 32);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [transparentHeader]);
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  // Body scroll-lock + Esc-to-close while mobile menu open
+  // Body scroll-lock, Esc-to-close, focus management while mobile menu open
   useEffect(() => {
     if (!mobileMenuOpen) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+
+    const firstLink = panelRef.current?.querySelector<HTMLElement>("a, button");
+    firstLink?.focus();
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileMenuOpen(false);
+      if (e.key === "Escape") {
+        setMobileMenuOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const focusables = panelRef.current?.querySelectorAll<HTMLElement>(
+        "a[href], button:not([disabled])",
+      );
+      if (!focusables || focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     document.addEventListener("keydown", onKey);
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", onKey);
+      toggleRef.current?.focus();
     };
   }, [mobileMenuOpen]);
 
+  // Close menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
+
   return (
-    <div className="min-h-screen flex flex-col bg-background">
-      {/* Skip link */}
+    <div className="flex min-h-screen flex-col bg-background">
       <a
         href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:rounded-sm focus:bg-primary focus:px-3 focus:py-2 focus:text-primary-foreground"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-ink focus:px-3 focus:py-2 focus:text-paper"
       >
         Skip to content
       </a>
 
-      {/* Header */}
-      <header
-        className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
-          scrolled
-            ? "bg-background/90 backdrop-blur-md supports-[backdrop-filter]:bg-background/70 border-b border-border"
-            : "bg-transparent border-b border-transparent",
-        )}
-      >
-        <div className="container flex items-center justify-between h-16 md:h-20 wide:h-24">
-          {/* Logo */}
-          <Link
-            href="/"
-            className="flex items-center gap-2 font-bold text-xl md:text-2xl text-primary hover:opacity-80 transition-opacity"
-          >
-            <div className="w-8 h-8 md:w-10 md:h-10 rounded-sm bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm md:text-base font-bold shadow-sm">
-              A
-            </div>
-            <span className="hidden sm:inline tracking-tight">ADVANTA365</span>
-          </Link>
+      {/* Header — solid drafting bar with a structural baseline rule */}
+      <header className="sticky top-0 z-50 border-b border-rule-strong bg-background">
+        <div className="container flex h-16 items-center justify-between md:h-[4.5rem]">
+          <Wordmark />
 
           {/* Desktop nav */}
-          <nav className="hidden lg:flex items-center gap-1">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="px-3 py-2 text-sm wide:text-[15px] font-medium text-foreground/85 hover:text-primary transition-colors rounded-sm hover:bg-secondary/70"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "relative px-3 py-2 text-sm font-medium transition-colors",
+                    active ? "text-ink" : "text-ink-2 hover:text-ink",
+                  )}
+                >
+                  {item.label}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "absolute inset-x-3 -bottom-px h-[2px] origin-left transition-transform duration-200",
+                      active ? "scale-x-100 bg-primary" : "scale-x-0 bg-ink",
+                    )}
+                  />
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* CTA + mobile toggle */}
-          <div className="flex items-center gap-2 md:gap-4">
+          <div className="flex items-center gap-2 md:gap-3">
             <Link href="/contact" className="hidden sm:inline-flex">
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5">
+              <Button size="sm" className="gap-1.5">
                 Talk to us
-                <ArrowUpRight className="w-4 h-4" />
+                <ArrowUpRight className="h-4 w-4" />
               </Button>
             </Link>
 
             <button
-              className="lg:hidden p-2 hover:bg-secondary/70 rounded-sm transition-colors text-foreground"
+              ref={toggleRef}
+              className="grid h-11 w-11 place-items-center text-ink transition-colors hover:bg-secondary lg:hidden"
               onClick={() => setMobileMenuOpen((v) => !v)}
               aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
           </div>
         </div>
       </header>
 
-      {/* Mobile menu overlay */}
+      {/* Mobile menu */}
       {mobileMenuOpen && (
         <>
           <button
             type="button"
             aria-label="Close menu"
-            className="lg:hidden fixed inset-0 z-40 bg-foreground/30 backdrop-blur-sm"
+            tabIndex={-1}
+            className="fixed inset-0 z-40 bg-ink/40 lg:hidden"
             onClick={() => setMobileMenuOpen(false)}
           />
           <div
             id="mobile-menu"
-            className="lg:hidden fixed inset-x-0 top-0 z-50 bg-background border-b border-border shadow-lg pt-16 md:pt-20"
+            ref={panelRef}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site menu"
+            className="fixed inset-x-0 top-0 z-50 border-b border-rule-strong bg-background pt-16 shadow-[0_24px_48px_-24px_rgba(40,36,30,0.35)] md:pt-[4.5rem] lg:hidden"
           >
-            <nav className="container py-6 flex flex-col gap-1">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-3 py-3 text-base font-medium text-foreground hover:text-primary transition-colors rounded-sm hover:bg-secondary/70"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <div className="pt-4">
-                <Link href="/contact" onClick={() => setMobileMenuOpen(false)}>
-                  <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground gap-2">
+            <nav className="container flex flex-col py-4" aria-label="Mobile">
+              {navItems.map((item, idx) => {
+                const active = isActive(item.href);
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    aria-current={active ? "page" : undefined}
+                    className={cn(
+                      "flex items-baseline gap-4 border-b border-rule py-3.5 transition-colors",
+                      active ? "text-ink" : "text-ink-2 hover:text-ink",
+                    )}
+                  >
+                    <span className="mono-label w-6 shrink-0 tabular-nums">
+                      {String(idx + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-display text-lg font-semibold">{item.label}</span>
+                    {active && <span aria-hidden className="ml-auto h-2 w-2 self-center bg-primary" />}
+                  </Link>
+                );
+              })}
+              <div className="pt-5">
+                <Link href="/contact">
+                  <Button className="w-full gap-2">
                     Talk to us
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="h-4 w-4" />
                   </Button>
                 </Link>
               </div>
@@ -149,75 +201,58 @@ export default function SiteLayout({ children, transparentHeader = true }: SiteL
         </>
       )}
 
-      {/* Spacer when header is opaque (non-transparent pages) — prevents content jumping under fixed header */}
-      {!transparentHeader && <div aria-hidden className="h-16 md:h-20 wide:h-24" />}
-
       <main id="main" className="flex-1">
         {children}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border bg-secondary/40">
-        <div className="container py-12 md:py-16">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10">
-            {/* Brand */}
+      <footer className="border-t border-rule-strong bg-secondary">
+        <div className="container py-14 md:py-20">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-12 md:gap-8">
             <div className="md:col-span-5">
-              <Link href="/" className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-8 rounded-sm bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-sm font-bold shadow-sm">
-                  A
-                </div>
-                <span className="font-bold text-primary tracking-tight">ADVANTA365</span>
-              </Link>
-              <p className="body-base text-muted-foreground max-w-md">
+              <Wordmark />
+              <p className="body-base mt-5 max-w-md text-ink-2">
                 Enterprise Microsoft 365 adoption, governance, and enablement framework — for large,
                 complex, regulated organizations.
               </p>
             </div>
 
-            {/* Single nav */}
-            <div className="md:col-span-4">
-              <h4 className="eyebrow mb-4">Explore</h4>
-              <ul className="grid grid-cols-2 gap-x-4 gap-y-2">
-                {navItems.map((item) => (
+            <nav className="md:col-span-4" aria-label="Footer">
+              <h4 className="mono-label mb-5">Index</h4>
+              <ul className="border-t border-rule">
+                {navItems.map((item, idx) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                      className="flex items-baseline gap-4 border-b border-rule py-2.5 text-ink-2 transition-colors hover:text-ink"
                     >
-                      {item.label}
+                      <span className="mono-label tabular-nums">{String(idx + 1).padStart(2, "0")}</span>
+                      <span className="text-[0.95rem] font-medium">{item.label}</span>
                     </Link>
                   </li>
                 ))}
               </ul>
-            </div>
+            </nav>
 
-            {/* CTA */}
             <div className="md:col-span-3">
-              <h4 className="eyebrow mb-4">Get in touch</h4>
-              <p className="body-base text-muted-foreground mb-4">
+              <h4 className="mono-label mb-5">Get in touch</h4>
+              <p className="body-base mb-5 text-ink-2">
                 Start a conversation about your Microsoft 365 program.
               </p>
               <Link href="/contact">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground gap-1.5">
+                <Button className="gap-1.5">
                   Talk to us
-                  <ArrowUpRight className="w-4 h-4" />
+                  <ArrowUpRight className="h-4 w-4" />
                 </Button>
               </Link>
             </div>
           </div>
 
-          <div className="mt-10 pt-6 border-t border-border/70 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-            <p className="text-sm text-muted-foreground">
+          <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-rule pt-6 md:flex-row md:items-center">
+            <p className="mono-label normal-case tracking-normal">
               © {new Date().getFullYear()} ADVANTA365. All rights reserved.
             </p>
-            <div className="flex gap-5">
-              <Link
-                href="/contact"
-                className="text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                Contact
-              </Link>
-            </div>
+            <p className="mono-label">Enterprise Microsoft 365 Framework</p>
           </div>
         </div>
       </footer>

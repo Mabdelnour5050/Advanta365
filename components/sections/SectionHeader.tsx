@@ -6,68 +6,92 @@ import MotionReveal from "@/components/MotionReveal";
 import type { ReactNode } from "react";
 
 interface SectionHeaderProps {
-  eyebrow?: string;
+  /** Sheet index, e.g. "02" — rendered in the structural rule above the title. */
+  index?: string;
+  /** Short drafting label sitting beside the index. Used sparingly. */
+  label?: string;
   title: ReactNode;
   lede?: ReactNode;
   align?: "center" | "left";
   size?: "display" | "section";
-  cta?: { label: string; href: string; variant?: "primary" | "outline" };
+  cta?: { label: string; href: string; variant?: "default" | "outline" };
   className?: string;
-  /** Cap the lede width for readability. Default ~62ch. */
   maxLede?: string;
+  /** Tone-aware text when placed on an ink/dark surface. */
+  onDark?: boolean;
 }
 
 export default function SectionHeader({
-  eyebrow,
+  index,
+  label,
   title,
   lede,
-  align = "center",
+  align = "left",
   size = "section",
   cta,
   className,
-  maxLede = "62ch",
+  maxLede = "60ch",
+  onDark = false,
 }: SectionHeaderProps) {
   const isCentered = align === "center";
   return (
     <MotionReveal
       from={isCentered ? "up" : "left"}
       className={cn(
-        "flex flex-col gap-4 md:gap-5",
-        isCentered ? "items-center text-center mx-auto" : "items-start text-left",
+        "flex flex-col",
+        isCentered ? "items-center text-center" : "items-start text-left",
         className,
       )}
     >
-      {eyebrow ? <span className="eyebrow">{eyebrow}</span> : null}
-      <h2 className={cn(size === "display" ? "h-display" : "h-section", "text-foreground")}>
+      {(index || label) && (
+        <div
+          className={cn(
+            "mb-5 flex w-full items-center gap-4 border-t pt-3",
+            onDark ? "border-[color-mix(in_oklab,white_22%,transparent)]" : "border-rule-strong",
+            isCentered ? "justify-center" : "justify-start",
+          )}
+        >
+          {index && (
+            <span className="figure-index text-sm" style={onDark ? { color: "var(--paper)" } : undefined}>
+              {index}
+            </span>
+          )}
+          {label && (
+            <span className={cn("mono-label", onDark && "text-[color-mix(in_oklab,white_70%,transparent)]")}>
+              {label}
+            </span>
+          )}
+        </div>
+      )}
+
+      <h2
+        className={cn(
+          size === "display" ? "h-display" : "h-section",
+          onDark ? "text-[var(--paper)]" : "text-ink",
+        )}
+      >
         {title}
       </h2>
-      {lede ? (
+
+      {lede && (
         <p
-          className={cn("body-lg text-muted-foreground", isCentered ? "" : "")}
+          className={cn("body-lg mt-5", onDark ? "text-[color-mix(in_oklab,white_82%,transparent)]" : "")}
           style={{ maxWidth: maxLede }}
         >
           {lede}
         </p>
-      ) : null}
-      {cta ? (
-        <div className={cn("pt-2", isCentered ? "" : "")}>
+      )}
+
+      {cta && (
+        <div className="mt-7">
           <Link href={cta.href}>
-            <Button
-              size="lg"
-              variant={cta.variant === "outline" ? "outline" : "default"}
-              className={cn(
-                "gap-2",
-                cta.variant === "outline"
-                  ? "border-border hover:bg-secondary"
-                  : "bg-primary hover:bg-primary/90 text-primary-foreground",
-              )}
-            >
+            <Button size="lg" variant={cta.variant === "outline" ? "outline" : "default"} className="gap-2">
               {cta.label}
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
         </div>
-      ) : null}
+      )}
     </MotionReveal>
   );
 }

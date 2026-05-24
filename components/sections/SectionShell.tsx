@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 
 export type SectionTone = "default" | "muted" | "accent" | "dark";
 export type SectionDensity = "tight" | "normal" | "loose";
-export type SectionDecoration = "none" | "blobs" | "grid" | "rule";
+export type SectionDecoration = "none" | "grid" | "rule";
 
 interface SectionShellProps {
   children: ReactNode;
@@ -13,15 +13,15 @@ interface SectionShellProps {
   id?: string;
   className?: string;
   containerClassName?: string;
-  /** When true, render children without the inner .container wrapper (use for full-bleed visuals). */
+  /** When true, render children without the inner .container wrapper. */
   bleed?: boolean;
 }
 
 const toneClass: Record<SectionTone, string> = {
   default: "bg-background text-foreground",
-  muted: "bg-secondary/50 text-foreground",
-  accent: "bg-gradient-to-br from-primary/5 via-background to-accent/5 text-foreground",
-  dark: "bg-primary text-primary-foreground",
+  muted: "bg-secondary text-foreground",
+  accent: "bg-background text-foreground",
+  dark: "bg-ink text-[var(--paper)]",
 };
 
 const densityClass: Record<SectionDensity, string> = {
@@ -29,37 +29,6 @@ const densityClass: Record<SectionDensity, string> = {
   normal: "section-y",
   loose: "section-y-loose",
 };
-
-function Decoration({ kind, tone }: { kind: SectionDecoration; tone: SectionTone }) {
-  if (kind === "none") return null;
-  if (kind === "rule") {
-    return (
-      <span
-        aria-hidden
-        className="bleed-divider absolute inset-x-0 top-0"
-      />
-    );
-  }
-  if (kind === "grid") {
-    return (
-      <div
-        aria-hidden
-        className={cn(
-          "decoration-grid absolute inset-0 pointer-events-none",
-          tone === "dark" ? "opacity-[0.08]" : "opacity-[0.4]",
-        )}
-        style={{ maskImage: "radial-gradient(circle at center, black 30%, transparent 75%)" }}
-      />
-    );
-  }
-  // blobs
-  return (
-    <div aria-hidden className="absolute inset-0 pointer-events-none overflow-hidden">
-      <div className="absolute -top-16 -right-12 w-[28rem] h-[28rem] rounded-full bg-accent/10 blur-3xl" />
-      <div className="absolute -bottom-16 -left-12 w-[28rem] h-[28rem] rounded-full bg-primary/10 blur-3xl" />
-    </div>
-  );
-}
 
 export default function SectionShell({
   children,
@@ -74,13 +43,22 @@ export default function SectionShell({
   return (
     <section
       id={id}
-      className={cn("relative overflow-hidden", toneClass[tone], densityClass[density], className)}
+      className={cn("relative isolate", toneClass[tone], densityClass[density], className)}
     >
-      <Decoration kind={decoration} tone={tone} />
+      {decoration === "grid" && (
+        <div
+          aria-hidden
+          className="grid-paper pointer-events-none absolute inset-0 -z-10 opacity-60"
+          style={{ maskImage: "linear-gradient(to bottom, black, transparent 85%)" }}
+        />
+      )}
+      {decoration === "rule" && (
+        <span aria-hidden className="rule-h-strong absolute inset-x-0 top-0" />
+      )}
       {bleed ? (
-        <div className={cn("relative z-10", containerClassName)}>{children}</div>
+        <div className={cn("relative", containerClassName)}>{children}</div>
       ) : (
-        <div className={cn("container relative z-10", containerClassName)}>{children}</div>
+        <div className={cn("container relative", containerClassName)}>{children}</div>
       )}
     </section>
   );

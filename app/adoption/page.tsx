@@ -3,11 +3,8 @@ import SiteLayout from "@/components/SiteLayout";
 import PageHero from "@/components/sections/PageHero";
 import SectionShell from "@/components/sections/SectionShell";
 import SectionHeader from "@/components/sections/SectionHeader";
-import CardGrid, { type GridItem } from "@/components/sections/CardGrid";
-import CTABand from "@/components/sections/CTABand";
 import MotionReveal from "@/components/MotionReveal";
 import { adoptionSuccessFactors, trainingPrinciples } from "@/lib/content";
-import { CheckCircle2 } from "lucide-react";
 import {
   buildMetadata,
   itemListSchema,
@@ -15,6 +12,7 @@ import {
   serviceSchema,
   webPageSchema,
 } from "@/lib/seo";
+import CTABand from "@/components/sections/CTABand";
 
 export const metadata = buildMetadata({
   title: "Microsoft 365 Adoption & Enablement",
@@ -34,11 +32,6 @@ export const metadata = buildMetadata({
 });
 
 export default function Adoption() {
-  const principleItems: GridItem[] = trainingPrinciples.map((p) => ({
-    title: p,
-    icon: <CheckCircle2 className="w-5 h-5" />,
-  }));
-
   const adoptionGraph = {
     "@context": "https://schema.org",
     "@graph": [
@@ -81,55 +74,60 @@ export default function Adoption() {
         dangerouslySetInnerHTML={{ __html: jsonLd(adoptionGraph) }}
       />
       <PageHero
-        eyebrow="Adoption & enablement"
+        label="Adoption & enablement"
         title="Adoption that actually sticks"
-        lede="Structured, role-based adoption that drives real behavioral change and sustained engagement — long after launch day."
+        lede="Structured, role-based adoption that drives real behavioral change and sustained engagement, long after launch day."
         cta={{ label: "Start your adoption journey", href: "/contact" }}
       />
 
       {/* Training principles */}
       <SectionShell tone="default" decoration="grid">
         <SectionHeader
-          eyebrow="How we train"
+          index="01"
+          label="How we train"
           title="Training principles"
           lede="Six principles that shape every learning experience we design."
-          align="center"
-          className="mb-8 md:mb-10 wide:mb-12"
+          className="mb-10 md:mb-12"
         />
-        <CardGrid
-          items={principleItems}
-          variant="outlined"
-          cols={{ base: 1, md: 2, lg: 3 }}
-          stagger={60}
-          gap="md"
-        />
+        <div className="grid grid-cols-1 gap-px sm:grid-cols-2 lg:grid-cols-3">
+          {trainingPrinciples.map((principle, idx) => (
+            <MotionReveal
+              key={idx}
+              from="up"
+              delay={idx * 60}
+              className="flex items-start gap-4 border-t-2 border-ink bg-background py-6 pr-5"
+            >
+              <span className="figure-index text-lg">{String(idx + 1).padStart(2, "0")}</span>
+              <span className="h-card text-ink">{principle}</span>
+            </MotionReveal>
+          ))}
+        </div>
       </SectionShell>
 
-      {/* Success factors — alternating row backgrounds */}
+      {/* Success factors */}
       <SectionShell tone="muted">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-          <MotionReveal from="left" className="lg:col-span-4 space-y-4 lg:sticky lg:top-28">
-            <span className="eyebrow">Success factors</span>
-            <h2 className="h-section text-foreground">When adoption works</h2>
-            <p className="body-lg text-muted-foreground">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16">
+          <MotionReveal from="left" className="lg:col-span-4 lg:sticky lg:top-28 lg:self-start">
+            <div className="mb-5 flex items-center gap-4 border-t border-rule-strong pt-3">
+              <span className="figure-index text-sm">02</span>
+              <span className="mono-label">Success factors</span>
+            </div>
+            <h2 className="h-section text-ink">When adoption works</h2>
+            <p className="body-lg mt-5">
               The conditions we see in every program that makes Microsoft 365 stick.
             </p>
           </MotionReveal>
-          <div className="lg:col-span-8 space-y-3 md:space-y-4">
+
+          <div className="border-t-2 border-ink lg:col-span-8">
             {adoptionSuccessFactors.map((factor, idx) => (
               <MotionReveal
                 key={idx}
                 from="up"
-                delay={idx * 60}
-                className={
-                  "flex items-start gap-4 rounded-sm border border-border/60 p-5 md:p-6 transition-colors " +
-                  (idx % 2 === 0 ? "bg-card" : "bg-background/60")
-                }
+                delay={idx * 50}
+                className="flex items-baseline gap-5 border-b border-rule py-5 transition-colors hover:bg-background"
               >
-                <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-sm bg-primary/10 text-primary text-sm font-bold">
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
-                <p className="body-base text-foreground pt-0.5">{factor}</p>
+                <span className="figure-index tabular-nums">{String(idx + 1).padStart(2, "0")}</span>
+                <p className="body-base text-ink">{factor}</p>
               </MotionReveal>
             ))}
           </div>
@@ -137,7 +135,7 @@ export default function Adoption() {
       </SectionShell>
 
       <CTABand
-        eyebrow="Get in touch"
+        label="Get in touch"
         title="Build adoption that scales with you."
         lede="Let's talk about your organization's adoption and enablement needs."
         primary={{ label: "Talk to us", href: "/contact" }}
