@@ -42,7 +42,7 @@ export default function PageHero({
             hasAside ? "lg:grid-cols-12" : "lg:grid-cols-1",
           )}
         >
-          <MotionReveal from="left" className={cn(hasAside ? "lg:col-span-7" : "max-w-[26ch] lg:max-w-[20ch]")}>
+          <MotionReveal from="left" className={cn(hasAside ? "lg:col-span-7" : "max-w-3xl")}>
             <div className="mb-6 flex items-center gap-4 border-t border-rule-strong pt-3">
               <span className="figure-index text-sm">A365</span>
               {label && <span className="mono-label">{label}</span>}
